@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minhas Vagas | Painel Online</title>
+  <style>
+    /* =========================================================
+       DESIGN SYSTEM & VARIÁVEIS (MOBILE-FIRST, CLEAN UI)
+       ========================================================= */
+    :root {
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-subtle: #f1f5f9;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+
+      --success-bg: #dcfce7;
+      --success-text: #166534;
+
+      --danger: #dc2626;
+      --danger-soft: #fef2f2;
+
+      --warn-bg: #fffbeb;
+      --warn-border: #f59e0b;
+      --warn-text: #92400e;
+
+      --badge-remoto-bg: #dcfce7;
+      --badge-remoto-text: #166534;
+      --badge-hibrido-bg: #e0e7ff;
+      --badge-hibrido-text: #3730a3;
+      --badge-presencial-bg: #ffedd5;
+      --badge-presencial-text: #9a3412;
+
+      --radius: 12px;
+      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.5;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* =========================================================
+       CABEÇALHO E CONTROLES DE TRAVA + NUVEM
+       ========================================================= */
+    .header {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 16px;
+      transition: border-color 0.2s ease;
+    }
+
+    body.is-unlocked .header {
+      border-color: var(--warn-border);
+    }
+
+    .header-top {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .brand h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .brand p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .cloud-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+    }
+
+    .cloud-badge.online {
+      background: var(--success-bg);
+      color: var(--success-text);
+    }
+
+    .cloud-badge.error {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .lock-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+    }
+
+    body.is-unlocked .status-pill {
+      background: var(--warn-bg);
+      color: var(--warn-text);
+      border: 1px solid #fde68a;
+    }
+
+    .edit-toolbar {
+      display: none;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--border-color);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    body.is-unlocked .edit-toolbar {
+      display: flex;
+    }
+
+    /* =========================================================
+       BOTÕES (TOUCH-FRIENDLY >= 44px)
+       ========================================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 10px 16px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      font-family: inherit;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.15s ease, transform 0.08s ease;
+      user-select: none;
+    }
+
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border-color: var(--border-color);
+    }
+    .btn-secondary:hover { background: var(--bg-subtle); }
+
+    .btn-warning {
+      background: var(--warn-bg);
+      color: var(--warn-text);
+      border-color: var(--warn-border);
+    }
+
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-ghost-danger {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border-color: #fecaca;
+    }
+
+    .btn-sm {
+      min-height: 38px;
+      padding: 6px 12px;
+      font-size: 0.85rem;
+    }
+
+    /* =========================================================
+       BUSCA E FILTROS
+       ========================================================= */
+    .filters-box {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .search-wrap { position: relative; width: 100%; }
+    .search-wrap svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      min-height: 46px;
+      padding: 10px 14px 10px 42px;
+      font-size: 16px;
+      font-family: inherit;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      color: var(--text-main);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .search-input:focus {
+      outline: 2px solid rgba(37, 99, 235, 0.25);
+      border-color: var(--primary);
+    }
+
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .pills-group { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .pill-btn {
+      min-height: 38px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .pill-btn.active {
+      background: var(--text-main);
+      color: #fff;
+      border-color: var(--text-main);
+    }
+
+    .counter-text { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
+
+    /* =========================================================
+       BADGES DE MODELO DE TRABALHO
+       ========================================================= */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .badge-remoto { background: var(--badge-remoto-bg); color: var(--badge-remoto-text); }
+    .badge-hibrido { background: var(--badge-hibrido-bg); color: var(--badge-hibrido-text); }
+    .badge-presencial { background: var(--badge-presencial-bg); color: var(--badge-presencial-text); }
+
+    /* =========================================================
+       MOBILE (CARTÕES) & DESKTOP (TABELA)
+       ========================================================= */
+    .cards-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .job-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .job-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .job-title { font-size: 1.05rem; font-weight: 700; word-break: break-word; }
+    .job-company { font-size: 0.92rem; color: var(--text-muted); font-weight: 500; margin-top: 2px; word-break: break-word; }
+
+    .job-card-actions { display: flex; flex-direction: column; gap: 8px; }
+    .job-card-actions .btn-access { width: 100%; }
+
+    .edit-row-actions { display: none; gap: 8px; }
+    body.is-unlocked .edit-row-actions { display: flex; }
+    .edit-row-actions .btn { flex: 1; }
+
+    .table-wrap {
+      display: none;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    thead th {
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    tbody td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+      font-size: 0.95rem;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: #f8fafc; }
+
+    .col-edit-only { display: none; width: 160px; text-align: right; }
+    body.is-unlocked .col-edit-only { display: table-cell; }
+    .table-edit-btns { display: inline-flex; gap: 6px; }
+
+    @media (min-width: 768px) {
+      .container { padding: 24px; }
+      .header-top { flex-direction: row; align-items: center; justify-content: space-between; }
+      .cards-list { display: none; }
+      .table-wrap { display: block; }
+    }
+
+    /* =========================================================
+       ESTADO VAZIO E RODAPÉ
+       ========================================================= */
+    .empty-state {
+      text-align: center;
+      padding: 48px 20px;
+      background: var(--bg-card);
+      border: 1px dashed var(--border-color);
+      border-radius: var(--radius);
+      color: var(--text-muted);
+    }
+
+    .footer-bar {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* =========================================================
+       MODAIS E TOAST
+       ========================================================= */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 1000;
+    }
+    .modal-backdrop.open { display: flex; }
+
+    .modal {
+      background: var(--bg-card);
+      width: 100%;
+      max-width: 540px;
+      max-height: 92vh;
+      overflow-y: auto;
+      border-radius: 16px;
+      box-shadow: var(--shadow-md);
+      padding: 20px;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .modal-header h2 { font-size: 1.15rem; font-weight: 700; }
+
+    .btn-close {
+      background: var(--bg-subtle);
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 6px; }
+
+    .form-control {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 12px;
+      font-size: 16px;
+      font-family: inherit;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      background: var(--bg-card);
+      color: var(--text-main);
+    }
+
+    textarea.form-control { min-height: 140px; resize: vertical; font-size: 14px; }
+
+    .modal-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+      background: var(--bg-subtle);
+      padding: 4px;
+      border-radius: 10px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      min-height: 40px;
+      border: none;
+      background: transparent;
+      border-radius: 8px;
+      font-weight: 600;
+      font-family: inherit;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .tab-btn.active { background: var(--bg-card); color: var(--text-main); box-shadow: var(--shadow-sm); }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .hint { font-size: 0.82rem; color: var(--text-muted); margin-top: 6px; }
+    .error-text { color: var(--danger); font-size: 0.85rem; font-weight: 600; margin-top: 6px; display: none; }
+
+    .magic-box {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 14px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--text-main);
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: var(--shadow-md);
+      opacity: 0;
+      transition: all 0.25s ease;
+      z-index: 2000;
+      white-space: nowrap;
+      max-width: 90vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- CABEÇALHO -->
+    <header class="header">
+      <div class="header-top">
+        <div class="brand">
+          <h1>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            </svg>
+            Minhas Vagas
+            <span class="cloud-badge" id="cloudBadge">💾 Local</span>
+          </h1>
+          <p id="syncSubtitle">Painel rápido e seguro para acompanhar oportunidades</p>
+        </div>
+
+        <div class="lock-controls">
+          <button type="button" class="btn btn-secondary btn-sm" id="syncNowBtn" style="display: none;" title="Buscar atualizações da nuvem">
+            🔄 Atualizar
+          </button>
+          <span class="status-pill" id="lockStatusText">🔒 Modo Visualização</span>
+          <button type="button" class="btn btn-secondary" id="toggleLockBtn">
+            Desbloquear Edição
+          </button>
+        </div>
+      </div>
+
+      <!-- FERRAMENTAS VISÍVEIS APENAS COM EDIÇÃO DESBLOQUEADA -->
+      <div class="edit-toolbar">
+        <button type="button" class="btn btn-primary" id="openAddModalBtn">+ Nova Vaga</button>
+        <button type="button" class="btn btn-secondary" id="openImportModalBtn">📥 Importar Vagas</button>
+        <button type="button" class="btn btn-secondary" id="openCloudModalBtn">☁️ Nuvem Online</button>
+        <button type="button" class="btn btn-secondary" id="openPinSettingsBtn">🔑 Alterar PIN</button>
+        <button type="button" class="btn btn-ghost-danger" id="clearAllBtn">Limpar Tudo</button>
+      </div>
+    </header>
+
+    <!-- BUSCA E FILTROS -->
+    <section class="filters-box" aria-label="Filtros de vagas">
+      <div class="search-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="search" id="searchInput" class="search-input" placeholder="Buscar por cargo ou empresa..." />
+      </div>
+
+      <div class="filter-pills">
+        <div class="pills-group" id="modelFilterGroup">
+          <button type="button" class="pill-btn active" data-model="Todos">Todos</button>
+          <button type="button" class="pill-btn" data-model="Remoto">Remoto</button>
+          <button type="button" class="pill-btn" data-model="Híbrido">Híbrido</button>
+          <button type="button" class="pill-btn" data-model="Presencial">Presencial</button>
+        </div>
+        <span class="counter-text" id="jobsCounter">0 vagas</span>
+      </div>
+    </section>
+
+    <!-- LISTAGEM: CARTÕES NO CELULAR -->
+    <main>
+      <div id="cardsContainer" class="cards-list"></div>
+
+      <!-- LISTAGEM: TABELA NO COMPUTADOR -->
+      <div id="tableWrap" class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Cargo</th>
+              <th>Empresa</th>
+              <th>Modelo</th>
+              <th style="width: 170px;">Link</th>
+              <th class="col-edit-only">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+
+      <div id="emptyState" class="empty-state" style="display: none;">
+        <p><strong>Nenhuma vaga encontrada.</strong></p>
+        <p style="font-size: 0.9rem; margin-top: 6px;">Ajuste os filtros ou desbloqueie a edição para adicionar novas vagas.</p>
+      </div>
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer class="footer-bar">
+      <span id="footerStorageInfo">Armazenamento local (navegador)</span>
+      <button type="button" class="btn btn-secondary btn-sm" id="exportCsvBtn">📤 Exportar CSV (Backup)</button>
+    </footer>
+  </div>
+
+  <!-- MODAL: PIN -->
+  <div class="modal-backdrop" id="pinModal">
+    <div class="modal" style="max-width: 380px;">
+      <div class="modal-header">
+        <h2>Desbloquear Edição</h2>
+        <button type="button" class="btn-close" data-close="pinModal">&times;</button>
+      </div>
+      <form id="pinForm">
+        <div class="form-group">
+          <label for="pinInput">Digite seu PIN de segurança</label>
+          <input type="password" id="pinInput" class="form-control" inputmode="numeric" maxlength="8" placeholder="PIN padrão: 1234" required />
+          <p class="hint">PIN padrão inicial: <strong>1234</strong></p>
+          <p class="error-text" id="pinError">PIN incorreto. Tente novamente.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close="pinModal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Desbloquear</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ALTERAR PIN -->
+  <div class="modal-backdrop" id="changePinModal">
+    <div class="modal" style="max-width: 380px;">
+      <div class="modal-header">
+        <h2>Alterar PIN</h2>
+        <button type="button" class="btn-close" data-close="changePinModal">&times;</button>
+      </div>
+      <form id="changePinForm">
+        <div class="form-group">
+          <label for="newPinInput">Novo PIN (4 a 8 dígitos)</label>
+          <input type="password" id="newPinInput" class="form-control" inputmode="numeric" minlength="4" maxlength="8" required />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close="changePinModal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar Novo PIN</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: CONECTAR NUVEM ONLINE (FIREBASE REALTIME DATABASE) -->
+  <div class="modal-backdrop" id="cloudModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>☁️ Sincronização Online (Nuvem)</h2>
+        <button type="button" class="btn-close" data-close="cloudModal">&times;</button>
+      </div>
+      <form id="cloudForm">
+        <div class="form-group">
+          <label for="cloudUrlInput">URL do Firebase Realtime Database *</label>
+          <input type="url" id="cloudUrlInput" class="form-control" placeholder="https://seu-projeto-default-rtdb.firebaseio.com" required />
+          <p class="hint">Criado gratuitamente na sua Conta Google (Firebase Console).</p>
+        </div>
+        <div class="form-group">
+          <label for="cloudFolderInput">Código da Pasta Secreta *</label>
+          <input type="text" id="cloudFolderInput" class="form-control" placeholder="Ex: vagas_jp_2026" required pattern="[A-Za-z0-9_-]{4,40}" />
+          <p class="hint">Use letras, números ou underline (sem espaços). Funciona como chave privada para seus dados.</p>
+        </div>
+
+        <div class="magic-box" id="magicLinkBox" style="display: none;">
+          <p style="font-size: 0.85rem; font-weight: 700; margin-bottom: 6px;">🔗 Link Rápido (Celular & Trabalho)</p>
+          <p class="hint" style="margin-top: 0; margin-bottom: 8px;">Envie este link para seu WhatsApp ou email. Ao abrir em outro aparelho, ele já conecta automaticamente:</p>
+          <input type="text" id="magicLinkInput" class="form-control" readonly style="font-size: 13px; margin-bottom: 8px;" />
+          <button type="button" class="btn btn-secondary btn-sm" id="copyMagicLinkBtn" style="width: 100%;">📋 Copiar Link Rápido</button>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost-danger" id="disconnectCloudBtn" style="display: none; margin-right: auto;">Desconectar</button>
+          <button type="button" class="btn btn-secondary" data-close="cloudModal">Fechar</button>
+          <button type="submit" class="btn btn-primary" id="saveCloudBtn">Conectar e Sincronizar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADICIONAR / EDITAR VAGA -->
+  <div class="modal-backdrop" id="jobModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="jobModalTitle">Nova Vaga</h2>
+        <button type="button" class="btn-close" data-close="jobModal">&times;</button>
+      </div>
+      <form id="jobForm">
+        <input type="hidden" id="jobIdInput" />
+        <div class="form-group">
+          <label for="jobTitleInput">Nome do Cargo *</label>
+          <input type="text" id="jobTitleInput" class="form-control" placeholder="Ex: Auxiliar Administrativo" required />
+        </div>
+        <div class="form-group">
+          <label for="jobCompanyInput">Empresa *</label>
+          <input type="text" id="jobCompanyInput" class="form-control" placeholder="Ex: Ceneged" required />
+        </div>
+        <div class="form-group">
+          <label for="jobModelInput">Modelo de Trabalho *</label>
+          <select id="jobModelInput" class="form-control" required>
+            <option value="Presencial">Presencial</option>
+            <option value="Híbrido">Híbrido</option>
+            <option value="Remoto">Remoto</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="jobLinkInput">Link da Vaga *</label>
+          <input type="url" id="jobLinkInput" class="form-control" placeholder="https://..." required />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close="jobModal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar Vaga</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: IMPORTAR VAGAS -->
+  <div class="modal-backdrop" id="importModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Importar Vagas em Lote</h2>
+        <button type="button" class="btn-close" data-close="importModal">&times;</button>
+      </div>
+
+      <div class="tabs">
+        <button type="button" class="tab-btn active" data-tab="tabCsv">Upload de .CSV</button>
+        <button type="button" class="tab-btn" data-tab="tabPaste">Colar Texto</button>
+      </div>
+
+      <div class="tab-panel active" id="tabCsv">
+        <div class="form-group">
+          <label for="csvFileInput">Selecione um arquivo .csv (UTF-8)</label>
+          <input type="file" id="csvFileInput" accept=".csv,text/csv" class="form-control" style="padding: 8px;" />
+          <p class="hint">Colunas esperadas: <code>cargo, empresa, link, modelo</code> (aceita <code>,</code> ou <code>;</code>).</p>
+        </div>
+        <div style="margin-bottom: 14px;">
+          <button type="button" class="btn btn-secondary btn-sm" id="downloadTemplateBtn">📄 Baixar Modelo de CSV</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close="importModal">Fechar</button>
+          <button type="button" class="btn btn-primary" id="importCsvBtn">Importar Arquivo</button>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="tabPaste">
+        <div class="form-group">
+          <label for="pasteTextarea">Cole linhas da sua planilha ou lista</label>
+          <textarea id="pasteTextarea" class="form-control" placeholder="Auxiliar Contábil; Ferronorte; https://...; Presencial&#10;Suporte Contábil Jr; Starian; https://...; Remoto"></textarea>
+          <p class="hint">Aceita cópia direta do Google Planilhas/Excel (TAB) ou <code>;</code>, <code>,</code>, <code>|</code> na ordem: <strong>Cargo, Empresa, Link, Modelo</strong>.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close="importModal">Fechar</button>
+          <button type="button" class="btn btn-primary" id="importPasteBtn">Importar Texto</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CONFIRMAÇÃO -->
+  <div class="modal-backdrop" id="confirmModal">
+    <div class="modal" style="max-width: 400px;">
+      <div class="modal-header">
+        <h2 id="confirmTitle">Confirmar Exclusão</h2>
+        <button type="button" class="btn-close" data-close="confirmModal">&times;</button>
+      </div>
+      <p id="confirmMessage" style="color: var(--text-muted); font-size: 0.95rem;"></p>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close="confirmModal">Cancelar</button>
+        <button type="button" class="btn btn-danger" id="confirmActionBtn">Sim, excluir</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      // =========================================================
+      // CHAVES LOCAIS E ESTADO DO APP
+      // =========================================================
+      const STORAGE_KEY = 'vagas_app_jobs_v1';
+      const PIN_KEY = 'vagas_app_pin_v1';
+      const CLOUD_KEY = 'vagas_app_cloud_v1';
+
+      const INITIAL_JOBS = [
+        {
+          id: 'seed-1',
+          cargo: 'Analista - Teresina',
+          empresa: 'Ceneged',
+          modelo: 'Presencial',
+          link: 'https://atracaodetalentos.totvs.app/cenegedvagas/751/analista-teresina'
+        },
+        {
+          id: 'seed-2',
+          cargo: 'Assistente de SGQ',
+          empresa: 'Ferronorte Industrial',
+          modelo: 'Presencial',
+          link: 'https://atracaodetalentos.totvs.app/ferronorteindustrial/29/assistente-de-sgq'
+        },
+        {
+          id: 'seed-3',
+          cargo: 'Auxiliar Financeiro',
+          empresa: 'Ferronorte Industrial',
+          modelo: 'Presencial',
+          link: 'https://atracaodetalentos.totvs.app/ferronorteindustrial/28/auxiliar-financeiro'
+        },
+        {
+          id: 'seed-4',
+          cargo: 'Auxiliar Contábil',
+          empresa: 'Lojas Ferronorte',
+          modelo: 'Presencial',
+          link: 'https://atracaodetalentos.totvs.app/vagaslojasferronorte/332/auxiliar-contabil'
+        },
+        {
+          id: 'seed-5',
+          cargo: 'Assistente Administrativo (PcD)',
+          empresa: 'Aegea Saneamento',
+          modelo: 'Presencial',
+          link: 'https://aegea.gupy.io/jobs/12890688?jobBoardSource=linkedin'
+        }
+      ];
+
+      let jobs = loadLocalJobs();
+      let cloudConfig = loadCloudConfig();
+      let isUnlocked = false;
+      let activeModel = 'Todos';
+      let searchQuery = '';
+      let pendingConfirmAction = null;
+
+      // =========================================================
+      // ARMAZENAMENTO LOCAL + SINCRONIZAÇÃO ONLINE (FIREBASE)
+      // =========================================================
+      function loadLocalJobs() {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw === null) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_JOBS));
+          return [...INITIAL_JOBS];
+        }
+        try {
+          const parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed : [];
+        } catch {
+          return [];
+        }
+      }
+
+      function loadCloudConfig() {
+        try {
+          const raw = localStorage.getItem(CLOUD_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch {
+          return null;
+        }
+      }
+
+      function getCloudEndpoint(cfg = cloudConfig) {
+        if (!cfg || !cfg.url || !cfg.folder) return null;
+        const base = cfg.url.trim().replace(/\/+$/, '');
+        const folder = cfg.folder.trim().replace(/[^A-Za-z0-9_-]/g, '');
+        return `${base}/${folder}.json`;
+      }
+
+      function setCloudBadge(status, text) {
+        const badge = document.getElementById('cloudBadge');
+        const syncBtn = document.getElementById('syncNowBtn');
+        const footerInfo = document.getElementById('footerStorageInfo');
+
+        badge.className = 'cloud-badge' + (status ? ` ${status}` : '');
+        badge.textContent = text;
+
+        if (cloudConfig) {
+          syncBtn.style.display = 'inline-flex';
+          footerInfo.textContent = 'Sincronizado na Nuvem (Firebase) + Cache Local';
+        } else {
+          syncBtn.style.display = 'none';
+          footerInfo.textContent = 'Armazenamento local (configure a Nuvem para sincronizar aparelhos)';
+        }
+      }
+
+      async function pushToCloud(silent = false) {
+        const endpoint = getCloudEndpoint();
+        if (!endpoint) return true;
+
+        setCloudBadge('', '⏳ Salvando...');
+        try {
+          const res = await fetch(endpoint, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              jobs,
+              pin: getPin(),
+              updatedAt: Date.now()
+            })
+          });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const timeStr = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+          setCloudBadge('online', `☁️ Online (${timeStr})`);
+          if (!silent) showToast('Salvo na nuvem!');
+          return true;
+        } catch (err) {
+          console.error('Erro ao salvar na nuvem:', err);
+          setCloudBadge('error', '⚠️ Erro ao salvar');
+          showToast('Salvo localmente, mas falhou ao enviar para nuvem.');
+          return false;
+        }
+      }
+
+      async function pullFromCloud(silent = false) {
+        const endpoint = getCloudEndpoint();
+        if (!endpoint) return false;
+
+        setCloudBadge('', '⏳ Sincronizando...');
+        try {
+          const res = await fetch(endpoint, { cache: 'no-store' });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const data = await res.json();
+
+          if (data && Array.isArray(data.jobs)) {
+            jobs = data.jobs;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(jobs));
+            if (data.pin) localStorage.setItem(PIN_KEY, String(data.pin));
+            render();
+          } else if (data && data.jobs && typeof data.jobs === 'object') {
+            jobs = Object.values(data.jobs);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(jobs));
+            render();
+          }
+
+          const timeStr = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+          setCloudBadge('online', `☁️ Online (${timeStr})`);
+          if (!silent) showToast('Lista atualizada da nuvem!');
+          return true;
+        } catch (err) {
+          console.error('Erro ao ler da nuvem:', err);
+          setCloudBadge('error', '⚠️ Offline / Erro');
+          if (!silent) showToast('Não foi possível conectar à nuvem.');
+          return false;
+        }
+      }
+
+      async function saveAll() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(jobs));
+        if (cloudConfig) {
+          await pushToCloud(true);
+        }
+      }
+
+      function getPin() {
+        return localStorage.getItem(PIN_KEY) || '1234';
+      }
+
+      // Verifica se o link veio com parâmetro mágico de pareamento (#sync=...)
+      function checkMagicLinkOnBoot() {
+        const hash = window.location.hash || '';
+        if (!hash.startsWith('#sync=')) return;
+        try {
+          const encoded = hash.slice(6);
+          const jsonStr = decodeURIComponent(escape(atob(encoded)));
+          const parsed = JSON.parse(jsonStr);
+          if (parsed && parsed.u && parsed.f) {
+            cloudConfig = { url: parsed.u, folder: parsed.f };
+            localStorage.setItem(CLOUD_KEY, JSON.stringify(cloudConfig));
+            // Limpa o hash da barra de endereço por privacidade
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+            showToast('Nuvem pareada com sucesso!');
+          }
+        } catch {
+          // Ignora hash inválido
+        }
+      }
+
+      function buildMagicLink(cfg) {
+        const payload = JSON.stringify({ u: cfg.url, f: cfg.folder });
+        const encoded = btoa(unescape(encodeURIComponent(payload)));
+        return `${window.location.origin}${window.location.pathname}#sync=${encoded}`;
+      }
+
+      // =========================================================
+      // UTILITÁRIOS DE SEGURANÇA E FORMATAÇÃO
+      // =========================================================
+      function generateId() {
+        return 'vaga-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 6);
+      }
+
+      function escapeHtml(str) {
+        return String(str ?? '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function sanitizeUrl(url) {
+        const trimmed = String(url ?? '').trim();
+        if (!trimmed || /^javascript:/i.test(trimmed)) return '#';
+        if (/^https?:\/\//i.test(trimmed)) return trimmed;
+        return 'https://' + trimmed;
+      }
+
+      function normalizeText(str) {
+        return String(str ?? '')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase()
+          .trim();
+      }
+
+      function normalizeModel(raw) {
+        const norm = normalizeText(raw);
+        if (norm.includes('remot') || norm.includes('home') || norm.includes('teletrabalho')) return 'Remoto';
+        if (norm.includes('hibrid')) return 'Híbrido';
+        return 'Presencial';
+      }
+
+      function getBadgeClass(modelo) {
+        if (modelo === 'Remoto') return 'badge badge-remoto';
+        if (modelo === 'Híbrido') return 'badge badge-hibrido';
+        return 'badge badge-presencial';
+      }
+
+      function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(showToast._timer);
+        showToast._timer = setTimeout(() => toast.classList.remove('show'), 3000);
+      }
+
+      // =========================================================
+      // RENDERIZAÇÃO
+      // =========================================================
+      const cardsContainer = document.getElementById('cardsContainer');
+      const tableBody = document.getElementById('tableBody');
+      const tableWrap = document.getElementById('tableWrap');
+      const emptyState = document.getElementById('emptyState');
+      const jobsCounter = document.getElementById('jobsCounter');
+
+      function render() {
+        const q = normalizeText(searchQuery);
+        const filtered = jobs.filter(job => {
+          const matchesModel = activeModel === 'Todos' || job.modelo === activeModel;
+          const matchesQuery = !q ||
+            normalizeText(job.cargo).includes(q) ||
+            normalizeText(job.empresa).includes(q);
+          return matchesModel && matchesQuery;
+        });
+
+        jobsCounter.textContent = `${filtered.length} ${filtered.length === 1 ? 'vaga' : 'vagas'}`;
+
+        if (filtered.length === 0) {
+          cardsContainer.innerHTML = '';
+          tableBody.innerHTML = '';
+          emptyState.style.display = 'block';
+          tableWrap.style.display = 'none';
+          return;
+        }
+
+        emptyState.style.display = 'none';
+        tableWrap.style.display = '';
+
+        cardsContainer.innerHTML = filtered.map(job => {
+          const safeTitle = escapeHtml(job.cargo);
+          const safeCompany = escapeHtml(job.empresa);
+          const safeModel = escapeHtml(job.modelo);
+          const safeLink = escapeHtml(sanitizeUrl(job.link));
+
+          return `
+            <article class="job-card">
+              <div class="job-card-header">
+                <div>
+                  <h3 class="job-title">${safeTitle}</h3>
+                  <p class="job-company">${safeCompany}</p>
+                </div>
+                <span class="${getBadgeClass(job.modelo)}">${safeModel}</span>
+              </div>
+              <div class="job-card-actions">
+                <a href="${safeLink}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-access">
+                  Acessar Vaga ↗
+                </a>
+                <div class="edit-row-actions">
+                  <button type="button" class="btn btn-secondary btn-sm" data-action="edit" data-id="${escapeHtml(job.id)}">Editar</button>
+                  <button type="button" class="btn btn-ghost-danger btn-sm" data-action="delete" data-id="${escapeHtml(job.id)}">Excluir</button>
+                </div>
+              </div>
+            </article>
+          `;
+        }).join('');
+
+        tableBody.innerHTML = filtered.map(job => {
+          const safeTitle = escapeHtml(job.cargo);
+          const safeCompany = escapeHtml(job.empresa);
+          const safeModel = escapeHtml(job.modelo);
+          const safeLink = escapeHtml(sanitizeUrl(job.link));
+
+          return `
+            <tr>
+              <td><strong>${safeTitle}</strong></td>
+              <td style="color: var(--text-muted);">${safeCompany}</td>
+              <td><span class="${getBadgeClass(job.modelo)}">${safeModel}</span></td>
+              <td>
+                <a href="${safeLink}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+                  Acessar Vaga ↗
+                </a>
+              </td>
+              <td class="col-edit-only">
+                <div class="table-edit-btns">
+                  <button type="button" class="btn btn-secondary btn-sm" data-action="edit" data-id="${escapeHtml(job.id)}">Editar</button>
+                  <button type="button" class="btn btn-ghost-danger btn-sm" data-action="delete" data-id="${escapeHtml(job.id)}">Excluir</button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      // =========================================================
+      // MODAIS E TRAVA DE SEGURANÇA
+      // =========================================================
+      function openModal(id) { document.getElementById(id).classList.add('open'); }
+      function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+      document.querySelectorAll('[data-close]').forEach(btn => {
+        btn.addEventListener('click', () => closeModal(btn.dataset.close));
+      });
+
+      document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
+        backdrop.addEventListener('click', (e) => {
+          if (e.target === backdrop) backdrop.classList.remove('open');
+        });
+      });
+
+      function setUnlocked(state) {
+        isUnlocked = state;
+        document.body.classList.toggle('is-unlocked', state);
+        const statusEl = document.getElementById('lockStatusText');
+        const btn = document.getElementById('toggleLockBtn');
+
+        if (state) {
+          statusEl.textContent = '🔓 Edição Desbloqueada';
+          btn.textContent = 'Bloquear Edição';
+          btn.className = 'btn btn-warning';
+        } else {
+          statusEl.textContent = '🔒 Modo Visualização';
+          btn.textContent = 'Desbloquear Edição';
+          btn.className = 'btn btn-secondary';
+        }
+      }
+
+      document.getElementById('toggleLockBtn').addEventListener('click', () => {
+        if (isUnlocked) {
+          setUnlocked(false);
+          showToast('Modo leitura ativado.');
+        } else {
+          document.getElementById('pinError').style.display = 'none';
+          document.getElementById('pinInput').value = '';
+          openModal('pinModal');
+          setTimeout(() => document.getElementById('pinInput').focus(), 80);
+        }
+      });
+
+      document.getElementById('pinForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (document.getElementById('pinInput').value.trim() === getPin()) {
+          closeModal('pinModal');
+          setUnlocked(true);
+          showToast('Edição desbloqueada!');
+        } else {
+          document.getElementById('pinError').style.display = 'block';
+        }
+      });
+
+      document.getElementById('openPinSettingsBtn').addEventListener('click', () => {
+        document.getElementById('newPinInput').value = '';
+        openModal('changePinModal');
+      });
+
+      document.getElementById('changePinForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const nextPin = document.getElementById('newPinInput').value.trim();
+        if (nextPin.length >= 4) {
+          localStorage.setItem(PIN_KEY, nextPin);
+          if (cloudConfig) await pushToCloud(true);
+          closeModal('changePinModal');
+          showToast('PIN alterado!');
+        }
+      });
+
+      // =========================================================
+      // CONFIGURAÇÃO DA NUVEM ONLINE
+      // =========================================================
+      function refreshCloudModalUI() {
+        const urlInput = document.getElementById('cloudUrlInput');
+        const folderInput = document.getElementById('cloudFolderInput');
+        const magicBox = document.getElementById('magicLinkBox');
+        const magicInput = document.getElementById('magicLinkInput');
+        const disconnectBtn = document.getElementById('disconnectCloudBtn');
+
+        if (cloudConfig) {
+          urlInput.value = cloudConfig.url;
+          folderInput.value = cloudConfig.folder;
+          magicInput.value = buildMagicLink(cloudConfig);
+          magicBox.style.display = 'block';
+          disconnectBtn.style.display = 'inline-flex';
+        } else {
+          urlInput.value = '';
+          folderInput.value = 'vagas_pessoal_' + Math.floor(1000 + Math.random() * 9000);
+          magicBox.style.display = 'none';
+          disconnectBtn.style.display = 'none';
+        }
+      }
+
+      document.getElementById('openCloudModalBtn').addEventListener('click', () => {
+        refreshCloudModalUI();
+        openModal('cloudModal');
+      });
+
+      document.getElementById('syncNowBtn').addEventListener('click', () => {
+        pullFromCloud(false);
+      });
+
+      document.getElementById('cloudForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const rawUrl = document.getElementById('cloudUrlInput').value.trim().replace(/\/+$/, '');
+        const folder = document.getElementById('cloudFolderInput').value.trim().replace(/[^A-Za-z0-9_-]/g, '');
+
+        if (!/^https:\/\/.+\.firebaseio\.com$/i.test(rawUrl) && !/^https:\/\/.+\.firebasedatabase\.app$/i.test(rawUrl)) {
+          showToast('Use a URL válida do Firebase Realtime Database.');
+          return;
+        }
+
+        const testCfg = { url: rawUrl, folder };
+        const endpoint = getCloudEndpoint(testCfg);
+        const saveBtn = document.getElementById('saveCloudBtn');
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Conectando...';
+
+        try {
+          const res = await fetch(endpoint, { cache: 'no-store' });
+          if (!res.ok) throw new Error('Permissão negada ou URL incorreta (HTTP ' + res.status + ')');
+          const remoteData = await res.json();
+
+          cloudConfig = testCfg;
+          localStorage.setItem(CLOUD_KEY, JSON.stringify(cloudConfig));
+
+          if (remoteData && Array.isArray(remoteData.jobs)) {
+            // Nuvem já tem vagas: baixa para este aparelho
+            jobs = remoteData.jobs;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(jobs));
+            if (remoteData.pin) localStorage.setItem(PIN_KEY, String(remoteData.pin));
+            render();
+            showToast('Conectado! Vagas carregadas da nuvem.');
+          } else {
+            // Nuvem vazia: envia as vagas atuais para a nuvem
+            await pushToCloud(true);
+            showToast('Conectado! Vagas enviadas para a nuvem.');
+          }
+
+          setCloudBadge('online', '☁️ Online');
+          refreshCloudModalUI();
+        } catch (err) {
+          console.error(err);
+          showToast('Erro ao conectar. Verifique URL e Regras do Firebase.');
+        } finally {
+          saveBtn.disabled = false;
+          saveBtn.textContent = 'Conectar e Sincronizar';
+        }
+      });
+
+      document.getElementById('copyMagicLinkBtn').addEventListener('click', async () => {
+        const input = document.getElementById('magicLinkInput');
+        try {
+          await navigator.clipboard.writeText(input.value);
+          showToast('Link Rápido copiado!');
+        } catch {
+          input.select();
+          document.execCommand('copy');
+          showToast('Link Rápido copiado!');
+        }
+      });
+
+      document.getElementById('disconnectCloudBtn').addEventListener('click', () => {
+        cloudConfig = null;
+        localStorage.removeItem(CLOUD_KEY);
+        setCloudBadge('', '💾 Local');
+        refreshCloudModalUI();
+        showToast('Nuvem desconectada neste navegador.');
+      });
+
+      // =========================================================
+      // CRUD DE VAGAS
+      // =========================================================
+      document.getElementById('openAddModalBtn').addEventListener('click', () => {
+        document.getElementById('jobModalTitle').textContent = 'Nova Vaga';
+        document.getElementById('jobIdInput').value = '';
+        document.getElementById('jobForm').reset();
+        openModal('jobModal');
+      });
+
+      document.getElementById('jobForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('jobIdInput').value;
+        const payload = {
+          id: id || generateId(),
+          cargo: document.getElementById('jobTitleInput').value.trim(),
+          empresa: document.getElementById('jobCompanyInput').value.trim(),
+          modelo: document.getElementById('jobModelInput').value,
+          link: sanitizeUrl(document.getElementById('jobLinkInput').value)
+        };
+
+        if (id) {
+          const idx = jobs.findIndex(j => j.id === id);
+          if (idx !== -1) jobs[idx] = payload;
+          showToast('Vaga atualizada!');
+        } else {
+          jobs.unshift(payload);
+          showToast('Vaga adicionada!');
+        }
+
+        render();
+        closeModal('jobModal');
+        await saveAll();
+      });
+
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-action]');
+        if (!btn || !isUnlocked) return;
+
+        const id = btn.dataset.id;
+        const job = jobs.find(j => j.id === id);
+        if (!job) return;
+
+        if (btn.dataset.action === 'edit') {
+          document.getElementById('jobModalTitle').textContent = 'Editar Vaga';
+          document.getElementById('jobIdInput').value = job.id;
+          document.getElementById('jobTitleInput').value = job.cargo;
+          document.getElementById('jobCompanyInput').value = job.empresa;
+          document.getElementById('jobModelInput').value = job.modelo;
+          document.getElementById('jobLinkInput').value = job.link;
+          openModal('jobModal');
+        }
+
+        if (btn.dataset.action === 'delete') {
+          document.getElementById('confirmTitle').textContent = 'Excluir Vaga';
+          document.getElementById('confirmMessage').textContent =
+            `Tem certeza que deseja excluir "${job.cargo}" na empresa "${job.empresa}"?`;
+          pendingConfirmAction = async () => {
+            jobs = jobs.filter(j => j.id !== id);
+            render();
+            await saveAll();
+            showToast('Vaga excluída.');
+          };
+          openModal('confirmModal');
+        }
+      });
+
+      document.getElementById('clearAllBtn').addEventListener('click', () => {
+        if (!isUnlocked) return;
+        document.getElementById('confirmTitle').textContent = 'Limpar Todas as Vagas';
+        document.getElementById('confirmMessage').textContent =
+          'Isso apagará todas as vagas (inclusive da nuvem, se conectada). Exporte um CSV antes se quiser backup.';
+        pendingConfirmAction = async () => {
+          jobs = [];
+          render();
+          await saveAll();
+          showToast('Todas as vagas foram removidas.');
+        };
+        openModal('confirmModal');
+      });
+
+      document.getElementById('confirmActionBtn').addEventListener('click', () => {
+        if (pendingConfirmAction) pendingConfirmAction();
+        pendingConfirmAction = null;
+        closeModal('confirmModal');
+      });
+
+      // =========================================================
+      // BUSCA E FILTROS
+      // =========================================================
+      document.getElementById('searchInput').addEventListener('input', (e) => {
+        searchQuery = e.target.value;
+        render();
+      });
+
+      document.getElementById('modelFilterGroup').addEventListener('click', (e) => {
+        const pill = e.target.closest('.pill-btn');
+        if (!pill) return;
+        document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+        pill.classList.add('active');
+        activeModel = pill.dataset.model;
+        render();
+      });
+
+      // =========================================================
+      // IMPORTAÇÃO EM LOTE (CSV + COLAGEM RÁPIDA) & BACKUP
+      // =========================================================
+      document.getElementById('openImportModalBtn').addEventListener('click', () => {
+        document.getElementById('csvFileInput').value = '';
+        document.getElementById('pasteTextarea').value = '';
+        openModal('importModal');
+      });
+
+      document.querySelectorAll('.tab-btn').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+          tab.classList.add('active');
+          document.getElementById(tab.dataset.tab).classList.add('active');
+        });
+      });
+
+      function splitCsvLine(line, delimiter) {
+        const result = [];
+        let current = '';
+        let inQuotes = false;
+        for (let i = 0; i < line.length; i++) {
+          const ch = line[i];
+          if (ch === '"') {
+            if (inQuotes && line[i + 1] === '"') { current += '"'; i++; }
+            else { inQuotes = !inQuotes; }
+          } else if (ch === delimiter && !inQuotes) {
+            result.push(current.trim());
+            current = '';
+          } else {
+            current += ch;
+          }
+        }
+        result.push(current.trim());
+        return result;
+      }
+
+      function detectDelimiter(sampleLine) {
+        if (sampleLine.includes('\t')) return '\t';
+        if (sampleLine.includes(';')) return ';';
+        if (sampleLine.includes('|')) return '|';
+        return ',';
+      }
+
+      function parseBulkText(rawText) {
+        const cleanText = rawText.replace(/^\uFEFF/, '');
+        const lines = cleanText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+        if (lines.length === 0) return [];
+
+        const delimiter = detectDelimiter(lines[0]);
+        const firstCols = splitCsvLine(lines[0], delimiter).map(c => normalizeText(c));
+
+        let idxCargo = 0, idxEmpresa = 1, idxLink = 2, idxModelo = 3;
+        let startRow = 0;
+
+        const hasHeader = firstCols.some(c =>
+          c.includes('cargo') || c.includes('vaga') || c.includes('empresa') || c.includes('link')
+        );
+
+        if (hasHeader) {
+          startRow = 1;
+          firstCols.forEach((col, i) => {
+            if (col.includes('cargo') || col.includes('vaga') || col.includes('titulo')) idxCargo = i;
+            else if (col.includes('empresa')) idxEmpresa = i;
+            else if (col.includes('link') || col.includes('url')) idxLink = i;
+            else if (col.includes('modelo') || col.includes('modalidade') || col.includes('regime')) idxModelo = i;
+          });
+        }
+
+        const imported = [];
+        for (let i = startRow; i < lines.length; i++) {
+          const cols = splitCsvLine(lines[i], delimiter);
+          if (cols.length < 2) continue;
+
+          const cargo = (cols[idxCargo] || '').trim();
+          const empresa = (cols[idxEmpresa] || 'Não informada').trim();
+          let rawLink = (cols[idxLink] || '').trim();
+          let rawModelo = (cols[idxModelo] || 'Presencial').trim();
+
+          if (!/^https?:\/\//i.test(rawLink) && /^https?:\/\//i.test(rawModelo)) {
+            [rawLink, rawModelo] = [rawModelo, rawLink];
+          }
+
+          if (!cargo) continue;
+          imported.push({
+            id: generateId(),
+            cargo,
+            empresa,
+            link: sanitizeUrl(rawLink),
+            modelo: normalizeModel(rawModelo)
+          });
+        }
+        return imported;
+      }
+
+      document.getElementById('importCsvBtn').addEventListener('click', () => {
+        const file = document.getElementById('csvFileInput').files[0];
+        if (!file) { showToast('Selecione um arquivo .csv primeiro.'); return; }
+
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+          const parsed = parseBulkText(e.target.result);
+          if (parsed.length === 0) { showToast('Nenhuma vaga válida encontrada.'); return; }
+          jobs = [...parsed, ...jobs];
+          render();
+          closeModal('importModal');
+          await saveAll();
+          showToast(`${parsed.length} vaga(s) importada(s)!`);
+        };
+        reader.readAsText(file, 'UTF-8');
+      });
+
+      document.getElementById('importPasteBtn').addEventListener('click', async () => {
+        const parsed = parseBulkText(document.getElementById('pasteTextarea').value);
+        if (parsed.length === 0) { showToast('Cole ao menos uma linha válida.'); return; }
+        jobs = [...parsed, ...jobs];
+        render();
+        closeModal('importModal');
+        await saveAll();
+        showToast(`${parsed.length} vaga(s) importada(s)!`);
+      });
+
+      function triggerCsvDownload(filename, content) {
+        const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
+      document.getElementById('downloadTemplateBtn').addEventListener('click', () => {
+        const template = [
+          'cargo;empresa;link;modelo',
+          'Auxiliar Administrativo;Empresa Exemplo;https://site.com/vaga1;Presencial',
+          'Analista de Suporte Contábil;Starian;https://site.com/vaga2;Remoto'
+        ].join('\n');
+        triggerCsvDownload('modelo-vagas.csv', template);
+      });
+
+      document.getElementById('exportCsvBtn').addEventListener('click', () => {
+        if (jobs.length === 0) { showToast('Não há vagas para exportar.'); return; }
+        const escapeCsv = (val) => `"${String(val ?? '').replace(/"/g, '""')}"`;
+        const rows = jobs.map(j =>
+          [escapeCsv(j.cargo), escapeCsv(j.empresa), escapeCsv(j.link), escapeCsv(j.modelo)].join(';')
+        );
+        const dateStr = new Date().toISOString().slice(0, 10);
+        triggerCsvDownload(`vagas-backup-${dateStr}.csv`, ['cargo;empresa;link;modelo', ...rows].join('\n'));
+        showToast('Backup CSV baixado!');
+      });
+
+      // =========================================================
+      // INICIALIZAÇÃO
+      // =========================================================
+      checkMagicLinkOnBoot();
+      setUnlocked(false);
+      render();
+
+      if (cloudConfig) {
+        setCloudBadge('', '⏳ Sincronizando...');
+        pullFromCloud(true);
+      } else {
+        setCloudBadge('', '💾 Local');
+      }
+    })();
+  </script>
+</body>
+</html>
