@@ -3,36 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Minhas Vagas | Painel Online</title>
+  <title>Minhas Vagas | Painel Inteligente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     /* =========================================================
-       DESIGN SYSTEM & VARIÁVEIS (CLEAN SPLIT LAYOUT)
+       DESIGN SYSTEM — MODERN TECH / AI WORKSPACE
        ========================================================= */
     :root {
-      --bg-page: #f1f5f9;
+      --bg-page: #f6f8fc;
       --bg-card: #ffffff;
       --bg-subtle: #f8fafc;
-      --bg-selected: #eff6ff;
+      --bg-selected: #f5f7ff;
 
-      --text-main: #0f172a;
+      --text-main: #090d16;
       --text-secondary: #334155;
       --text-muted: #64748b;
-      --border-color: #e2e8f0;
-      --border-strong: #cbd5e1;
+      --border-color: rgba(15, 23, 42, 0.08);
+      --border-strong: rgba(15, 23, 42, 0.16);
 
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --primary-soft: #eff6ff;
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --accent-cyan: #0ea5e9;
+      --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 55%, #0ea5e9 100%);
+      --ai-soft-bg: linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(14, 165, 233, 0.08));
 
-      --success-bg: #dcfce7;
-      --success-text: #166534;
+      --success-bg: #ecfdf5;
+      --success-text: #047857;
+      --success-border: #a7f3d0;
 
       --danger: #dc2626;
       --danger-soft: #fef2f2;
 
-      --salary-bg: #ecfeff;
-      --salary-text: #0e7490;
-      --salary-border: #cffafe;
+      --salary-bg: #f0fdfa;
+      --salary-text: #0f766e;
+      --salary-border: #ccfbf1;
 
       --badge-remoto-bg: #ecfdf5;
       --badge-remoto-text: #047857;
@@ -46,11 +52,12 @@
       --badge-presencial-text: #c2410c;
       --badge-presencial-dot: #f97316;
 
-      --radius: 14px;
+      --radius: 16px;
       --radius-sm: 10px;
-      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
-      --shadow-md: 0 12px 28px -6px rgba(15, 23, 42, 0.14), 0 8px 12px -6px rgba(15, 23, 42, 0.06);
-      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow-sm: 0 2px 8px -2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 16px 36px -8px rgba(15, 23, 42, 0.16), 0 6px 16px -4px rgba(15, 23, 42, 0.06);
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -58,6 +65,10 @@
     html, body {
       font-family: var(--font-sans);
       background-color: var(--bg-page);
+      background-image:
+        radial-gradient(circle at 12% 0%, rgba(79, 70, 229, 0.07) 0%, transparent 42%),
+        radial-gradient(circle at 88% 4%, rgba(14, 165, 233, 0.07) 0%, transparent 38%);
+      background-attachment: fixed;
       color: var(--text-main);
       line-height: 1.5;
       overflow-x: hidden;
@@ -72,18 +83,22 @@
     }
 
     /* =========================================================
-       TOPO / BARRA PRINCIPAL
+       TOPO / HEADER GLASS
        ========================================================= */
     .topbar {
-      background: var(--bg-card);
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border: 1px solid var(--border-color);
       border-radius: var(--radius);
-      padding: 16px 18px;
+      padding: 16px 20px;
       box-shadow: var(--shadow-sm);
       margin-bottom: 16px;
       display: flex;
       flex-direction: column;
       gap: 14px;
+      position: relative;
+      z-index: 30;
     }
 
     .topbar-row {
@@ -97,29 +112,37 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 11px;
+      gap: 12px;
     }
 
     .brand-icon {
       width: 40px;
       height: 40px;
-      border-radius: 11px;
-      background: var(--primary-soft);
-      color: var(--primary);
+      border-radius: 12px;
+      background: var(--accent-gradient);
+      color: #ffffff;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+    }
+
+    .brand-title-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .brand h1 {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       font-weight: 700;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.025em;
     }
 
     .brand p {
-      font-size: 0.83rem;
+      font-size: 0.82rem;
       color: var(--text-muted);
     }
 
@@ -127,11 +150,11 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      font-size: 0.74rem;
-      font-weight: 700;
-      padding: 3px 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 9px;
       border-radius: 999px;
-      background: var(--bg-page);
+      background: var(--bg-subtle);
       color: var(--text-muted);
       border: 1px solid var(--border-color);
     }
@@ -139,7 +162,7 @@
     .cloud-badge.online {
       background: var(--success-bg);
       color: var(--success-text);
-      border-color: #bbf7d0;
+      border-color: var(--success-border);
     }
 
     .cloud-badge.error {
@@ -155,7 +178,7 @@
       align-items: center;
     }
 
-    /* Busca e Filtros integrados */
+    /* Busca e Filtros */
     .controls-row {
       display: flex;
       flex-wrap: wrap;
@@ -184,21 +207,21 @@
     .search-input {
       width: 100%;
       min-height: 40px;
-      padding: 8px 12px 8px 39px;
-      font-size: 14.5px;
+      padding: 8px 14px 8px 39px;
+      font-size: 14px;
       font-family: inherit;
       background: var(--bg-subtle);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-sm);
       color: var(--text-main);
-      transition: all 0.15s ease;
+      transition: all 0.16s ease;
     }
 
     .search-input:focus {
       outline: none;
       background: var(--bg-card);
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
     }
 
     .pills-group {
@@ -209,13 +232,13 @@
     }
 
     .pill-btn {
-      min-height: 34px;
+      min-height: 33px;
       padding: 5px 13px;
       border-radius: 999px;
       border: 1px solid var(--border-color);
       background: var(--bg-card);
       color: var(--text-muted);
-      font-size: 0.83rem;
+      font-size: 0.82rem;
       font-weight: 600;
       font-family: inherit;
       cursor: pointer;
@@ -230,30 +253,30 @@
     }
 
     .counter-text {
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
       font-weight: 600;
-      margin-left: 4px;
+      padding-left: 6px;
     }
 
     /* =========================================================
-       BOTÕES
+       BOTÕES & MENUS DE TRÊS PONTINHOS (⋮)
        ========================================================= */
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 7px;
       min-height: 38px;
       padding: 8px 14px;
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       font-weight: 600;
       font-family: inherit;
       border-radius: var(--radius-sm);
       border: 1px solid transparent;
       cursor: pointer;
       text-decoration: none;
-      transition: all 0.15s ease;
+      transition: all 0.16s ease;
       user-select: none;
       white-space: nowrap;
     }
@@ -261,20 +284,28 @@
     .btn:active { transform: scale(0.98); }
     .btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    .btn-primary { background: var(--primary); color: #fff; }
-    .btn-primary:hover { background: var(--primary-hover); }
-
-    .btn-soft {
-      background: var(--primary-soft);
-      color: var(--primary);
-      border-color: #dbeafe;
+    .btn-primary {
+      background: var(--accent-gradient);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
     }
-    .btn-soft:hover { background: #dbeafe; }
+    .btn-primary:hover { filter: brightness(1.06); }
+
+    .btn-ai {
+      background: var(--ai-soft-bg);
+      color: var(--primary);
+      border-color: rgba(79, 70, 229, 0.22);
+    }
+    .btn-ai:hover {
+      border-color: rgba(79, 70, 229, 0.42);
+      background: rgba(79, 70, 229, 0.12);
+    }
 
     .btn-secondary {
       background: var(--bg-card);
       color: var(--text-main);
       border-color: var(--border-color);
+      box-shadow: var(--shadow-xs);
     }
     .btn-secondary:hover { background: var(--bg-subtle); border-color: var(--border-strong); }
 
@@ -284,17 +315,100 @@
       color: var(--danger);
       border-color: #fecaca;
     }
-    .btn-ghost-danger:hover { background: #fee2e2; }
 
     .btn-sm {
-      min-height: 34px;
-      padding: 5px 11px;
+      min-height: 35px;
+      padding: 6px 12px;
       font-size: 0.82rem;
+      border-radius: 9px;
+    }
+
+    .btn-icon {
+      width: 36px;
+      height: 36px;
+      min-height: 36px;
+      padding: 0;
+      border-radius: 10px;
+      background: var(--bg-card);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-xs);
+    }
+    .btn-icon:hover {
+      color: var(--text-main);
+      background: var(--bg-subtle);
+      border-color: var(--border-strong);
+    }
+
+    /* Dropdown dos Três Pontinhos */
+    .menu-wrap {
+      position: relative;
+      display: inline-flex;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      min-width: 220px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      box-shadow: var(--shadow-md);
+      padding: 6px;
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      z-index: 90;
+      animation: menuFade 0.12s ease-out;
+    }
+
+    .dropdown-menu.open { display: flex; }
+
+    @keyframes menuFade {
+      from { opacity: 0; transform: translateY(-4px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .menu-item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 11px;
+      border: none;
+      background: transparent;
       border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.84rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      text-align: left;
+      transition: background-color 0.12s ease, color 0.12s ease;
+    }
+
+    .menu-item:hover {
+      background: var(--bg-subtle);
+      color: var(--text-main);
+    }
+
+    .menu-item.danger {
+      color: var(--danger);
+    }
+    .menu-item.danger:hover {
+      background: var(--danger-soft);
+      color: #b91c1c;
+    }
+
+    .menu-divider {
+      height: 1px;
+      background: var(--border-color);
+      margin: 4px 6px;
     }
 
     /* =========================================================
-       BADGES
+       BADGES & AVATAR
        ========================================================= */
     .badge {
       display: inline-flex;
@@ -302,8 +416,8 @@
       gap: 5px;
       padding: 3px 9px;
       border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 700;
+      font-size: 0.74rem;
+      font-weight: 600;
       white-space: nowrap;
     }
 
@@ -329,16 +443,32 @@
       gap: 4px;
       padding: 3px 9px;
       border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 700;
+      font-size: 0.74rem;
+      font-weight: 600;
       background: var(--salary-bg);
       color: var(--salary-text);
       border: 1px solid var(--salary-border);
       white-space: nowrap;
     }
 
+    .company-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #eef2ff 0%, #e0f2fe 100%);
+      border: 1px solid rgba(79, 70, 229, 0.14);
+      color: var(--primary);
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      letter-spacing: 0.03em;
+    }
+
     /* =========================================================
-       WORKSPACE SPLIT (LISTA À ESQUERDA + DETALHES À DIREITA)
+       WORKSPACE SPLIT (ESQUERDA: LISTA | DIREITA: PAINEL LATERAL)
        ========================================================= */
     .workspace {
       display: grid;
@@ -350,50 +480,53 @@
     .jobs-column {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 9px;
       min-width: 0;
     }
 
-    /* Cartão compacto da lista: apenas Nome, Empresa, Modelo (+ salário se houver) */
     .job-item {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius);
       padding: 14px 16px;
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-xs);
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: all 0.16s ease;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 9px;
       text-align: left;
       width: 100%;
       font-family: inherit;
+      position: relative;
     }
 
     .job-item:hover {
       border-color: var(--border-strong);
+      box-shadow: var(--shadow-sm);
       transform: translateY(-1px);
     }
 
     .job-item.is-selected {
       background: var(--bg-selected);
-      border-color: var(--primary);
-      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.14);
+      border-color: rgba(79, 70, 229, 0.45);
+      box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.12);
     }
 
     .job-item-title {
-      font-size: 0.98rem;
-      font-weight: 700;
+      font-size: 0.96rem;
+      font-weight: 600;
       color: var(--text-main);
       word-break: break-word;
       line-height: 1.35;
+      letter-spacing: -0.01em;
     }
 
     .job-item-company {
-      font-size: 0.87rem;
+      font-size: 0.84rem;
       color: var(--text-muted);
       font-weight: 500;
+      margin-top: 2px;
       word-break: break-word;
     }
 
@@ -403,19 +536,17 @@
       align-items: center;
       justify-content: space-between;
       gap: 6px;
-      margin-top: 2px;
     }
 
-    .job-item-hint {
+    .job-item-arrow {
       font-size: 0.76rem;
       font-weight: 600;
       color: var(--primary);
+      opacity: 0.85;
     }
 
     /* Painel Lateral de Detalhes */
-    .detail-drawer-backdrop {
-      display: none;
-    }
+    .detail-drawer-backdrop { display: none; }
 
     .detail-panel {
       display: none;
@@ -424,38 +555,61 @@
       border-radius: var(--radius);
       box-shadow: var(--shadow-sm);
       min-width: 0;
-      overflow: hidden;
     }
 
     .detail-panel-header {
-      padding: 18px 20px;
+      padding: 20px 22px;
       border-bottom: 1px solid var(--border-color);
-      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      background: linear-gradient(180deg, rgba(248, 250, 252, 0.5) 0%, #ffffff 100%);
+      border-radius: var(--radius) var(--radius) 0 0;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
 
     .detail-header-top {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 12px;
+      gap: 14px;
+    }
+
+    .detail-identity {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      min-width: 0;
     }
 
     .detail-title {
-      font-size: 1.25rem;
+      font-size: 1.22rem;
       font-weight: 700;
       color: var(--text-main);
       line-height: 1.3;
+      letter-spacing: -0.02em;
       word-break: break-word;
     }
 
     .detail-company {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      margin-top: 3px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .detail-header-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .detail-footer-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
     }
 
     .detail-badges {
@@ -465,15 +619,8 @@
       align-items: center;
     }
 
-    .detail-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-    }
-
     .detail-body {
-      padding: 18px 20px;
+      padding: 20px 22px;
       display: grid;
       grid-template-columns: 1fr;
       gap: 12px;
@@ -482,29 +629,29 @@
     .bento-card {
       background: var(--bg-subtle);
       border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 14px 16px;
+      border-radius: 13px;
+      padding: 15px 17px;
       min-width: 0;
     }
 
-    .bento-card.full-span {
-      grid-column: 1 / -1;
-    }
+    .bento-card.full-span { grid-column: 1 / -1; }
 
     .bento-card h3 {
-      font-size: 0.8rem;
+      font-size: 0.77rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-main);
-      margin-bottom: 9px;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
     }
 
+    .bento-card h3 svg { color: var(--primary); }
+
     .bento-card p {
-      font-size: 0.91rem;
+      font-size: 0.9rem;
       color: var(--text-secondary);
       white-space: pre-line;
       word-break: break-word;
@@ -515,7 +662,7 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
-      font-size: 0.9rem;
+      font-size: 0.89rem;
       color: var(--text-secondary);
       word-break: break-word;
     }
@@ -523,21 +670,21 @@
     .detail-empty-box {
       grid-column: 1 / -1;
       text-align: center;
-      padding: 28px 16px;
+      padding: 30px 18px;
       background: var(--bg-subtle);
       border: 1px dashed var(--border-strong);
-      border-radius: 12px;
+      border-radius: 13px;
       color: var(--text-muted);
-      font-size: 0.9rem;
+      font-size: 0.89rem;
     }
 
     .mobile-close-btn {
       display: inline-flex;
-      background: var(--bg-page);
+      background: var(--bg-subtle);
       border: 1px solid var(--border-color);
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
       align-items: center;
       justify-content: center;
       font-size: 1.2rem;
@@ -546,17 +693,16 @@
       flex-shrink: 0;
     }
 
-    /* Desktop: Layout Lateral Fixo (sem precisar rolar até embaixo) */
     @media (min-width: 900px) {
       .app-shell { padding: 20px 24px; }
 
       .workspace {
-        grid-template-columns: 360px minmax(0, 1fr);
+        grid-template-columns: 355px minmax(0, 1fr);
         gap: 18px;
       }
 
       .jobs-column {
-        max-height: calc(100vh - 190px);
+        max-height: calc(100vh - 185px);
         overflow-y: auto;
         padding-right: 4px;
       }
@@ -569,14 +715,10 @@
         overflow-y: auto;
       }
 
-      .detail-body {
-        grid-template-columns: 1fr 1fr;
-      }
-
+      .detail-body { grid-template-columns: 1fr 1fr; }
       .mobile-close-btn { display: none; }
     }
 
-    /* Mobile: Painel abre como modal sobre a tela */
     @media (max-width: 899px) {
       .detail-panel.mobile-open {
         display: block;
@@ -592,7 +734,7 @@
         position: fixed;
         inset: 0;
         background: rgba(15, 23, 42, 0.55);
-        backdrop-filter: blur(2px);
+        backdrop-filter: blur(3px);
         z-index: 940;
       }
     }
@@ -602,7 +744,7 @@
        ========================================================= */
     .empty-state {
       text-align: center;
-      padding: 46px 20px;
+      padding: 50px 20px;
       background: var(--bg-card);
       border: 1px dashed var(--border-strong);
       border-radius: var(--radius);
@@ -618,18 +760,18 @@
       gap: 10px;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.81rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
     }
 
     /* =========================================================
-       MODAIS GERAIS & PLANILHA PADRÃO
+       MODAIS & PLANILHA PADRÃO
        ========================================================= */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.55);
-      backdrop-filter: blur(2px);
+      background: rgba(15, 23, 42, 0.52);
+      backdrop-filter: blur(4px);
       display: none;
       align-items: center;
       justify-content: center;
@@ -645,6 +787,7 @@
       max-height: 92vh;
       overflow-y: auto;
       border-radius: 18px;
+      border: 1px solid var(--border-color);
       box-shadow: var(--shadow-md);
       padding: 22px;
       animation: modalIn 0.16s ease-out;
@@ -662,10 +805,10 @@
       gap: 12px;
       margin-bottom: 16px;
     }
-    .modal-header h2 { font-size: 1.15rem; font-weight: 700; }
+    .modal-header h2 { font-size: 1.12rem; font-weight: 700; letter-spacing: -0.015em; }
 
     .btn-close {
-      background: var(--bg-page);
+      background: var(--bg-subtle);
       border: 1px solid var(--border-color);
       width: 34px;
       height: 34px;
@@ -686,13 +829,13 @@
     }
 
     .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-size: 0.84rem; font-weight: 600; margin-bottom: 5px; }
+    .form-group label { display: block; font-size: 0.83rem; font-weight: 600; margin-bottom: 5px; }
 
     .form-control {
       width: 100%;
       min-height: 40px;
       padding: 8px 12px;
-      font-size: 14.5px;
+      font-size: 14px;
       font-family: inherit;
       border: 1px solid var(--border-color);
       border-radius: var(--radius-sm);
@@ -703,10 +846,10 @@
     .form-control:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
     }
 
-    textarea.form-control { min-height: 86px; resize: vertical; font-size: 14px; }
+    textarea.form-control { min-height: 86px; resize: vertical; font-size: 13.5px; }
 
     .modal-footer {
       display: flex;
@@ -718,7 +861,6 @@
       border-top: 1px solid var(--border-color);
     }
 
-    /* Bloco da Planilha Padrão */
     .template-card {
       background: var(--bg-subtle);
       border: 1px solid var(--border-color);
@@ -752,11 +894,11 @@
     }
 
     .template-table th {
-      background: #e2e8f0;
-      color: var(--text-main);
+      background: #eef2ff;
+      color: #312e81;
       padding: 7px 10px;
       font-weight: 700;
-      border-right: 1px solid #cbd5e1;
+      border-right: 1px solid #e0e7ff;
     }
 
     .template-table td {
@@ -781,11 +923,11 @@
       display: flex;
       align-items: flex-start;
       gap: 8px;
-      font-size: 0.84rem;
+      font-size: 0.83rem;
       cursor: pointer;
       color: var(--text-secondary);
     }
-    .radio-option input { margin-top: 3px; }
+    .radio-option input { margin-top: 3px; accent-color: var(--primary); }
     .radio-option strong { color: var(--text-main); display: block; }
 
     .tabs {
@@ -803,13 +945,13 @@
       border: none;
       background: transparent;
       border-radius: 8px;
-      font-size: 0.84rem;
+      font-size: 0.83rem;
       font-weight: 600;
       font-family: inherit;
       color: var(--text-muted);
       cursor: pointer;
     }
-    .tab-btn.active { background: var(--bg-card); color: var(--text-main); box-shadow: var(--shadow-sm); }
+    .tab-btn.active { background: var(--bg-card); color: var(--text-main); box-shadow: var(--shadow-xs); }
 
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
@@ -828,7 +970,7 @@
       margin-bottom: 10px;
     }
 
-    .hint { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+    .hint { font-size: 0.79rem; color: var(--text-muted); margin-top: 4px; }
 
     .magic-box {
       background: var(--bg-subtle);
@@ -840,14 +982,14 @@
 
     .toast {
       position: fixed;
-      bottom: 20px;
+      bottom: 22px;
       left: 50%;
       transform: translateX(-50%) translateY(80px);
-      background: var(--text-main);
+      background: #0f172a;
       color: #fff;
       padding: 10px 16px;
       border-radius: 999px;
-      font-size: 0.87rem;
+      font-size: 0.86rem;
       font-weight: 600;
       box-shadow: var(--shadow-md);
       opacity: 0;
@@ -860,12 +1002,12 @@
     }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
     .toast-undo-btn {
-      background: #3b82f6;
+      background: var(--primary);
       color: #fff;
       border: none;
       border-radius: 999px;
-      padding: 4px 10px;
-      font-size: 0.78rem;
+      padding: 4px 11px;
+      font-size: 0.77rem;
       font-weight: 700;
       cursor: pointer;
       font-family: inherit;
@@ -879,26 +1021,67 @@
       <div class="topbar-row">
         <div class="brand">
           <span class="brand-icon" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
             </svg>
           </span>
           <div>
-            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <div class="brand-title-line">
               <h1>Minhas Vagas</h1>
-              <span class="cloud-badge" id="cloudBadge">💾 Local</span>
+              <span class="cloud-badge" id="cloudBadge">Local</span>
             </div>
-            <p>Clique em uma vaga à esquerda para ver os detalhes ao lado</p>
+            <p>Painel inteligente de oportunidades</p>
           </div>
         </div>
 
         <div class="toolbar-actions">
-          <button type="button" class="btn btn-primary btn-sm" id="openAddModalBtn">+ Nova Vaga</button>
-          <button type="button" class="btn btn-soft btn-sm" id="openImportModalBtn">📥 Subir Planilha / IA</button>
-          <button type="button" class="btn btn-secondary btn-sm" id="openCloudModalBtn">☁️ Nuvem</button>
-          <button type="button" class="btn btn-secondary btn-sm" id="syncNowBtn" style="display:none;">🔄 Sincronizar</button>
-          <button type="button" class="btn btn-ghost-danger btn-sm" id="clearAllBtn">🗑️ Limpar Lista</button>
+          <button type="button" class="btn btn-ai btn-sm" id="openImportModalBtn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            Subir Planilha / IA
+          </button>
+
+          <button type="button" class="btn btn-primary btn-sm" id="openAddModalBtn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Nova Vaga
+          </button>
+
+          <!-- MENU TRÊS PONTINHOS SUPERIOR -->
+          <div class="menu-wrap">
+            <button type="button" class="btn btn-icon" id="topbarMenuBtn" aria-label="Mais opções" aria-expanded="false">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="5" r="1"/>
+                <circle cx="12" cy="12" r="1"/>
+                <circle cx="12" cy="19" r="1"/>
+              </svg>
+            </button>
+
+            <div class="dropdown-menu" id="topbarMenu" role="menu">
+              <button type="button" class="menu-item" id="syncNowBtn" style="display:none;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
+                Sincronizar agora
+              </button>
+              <button type="button" class="menu-item" id="openCloudModalBtn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+                Configurar Nuvem
+              </button>
+              <button type="button" class="menu-item" id="exportCsvBtn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Exportar Backup (.csv)
+              </button>
+              <div class="menu-divider"></div>
+              <button type="button" class="menu-item danger" id="clearAllBtn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                Limpar toda a lista
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -909,7 +1092,7 @@
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-          <input type="search" id="searchInput" class="search-input" placeholder="Buscar por vaga, empresa, requisito ou salário..." />
+          <input type="search" id="searchInput" class="search-input" placeholder="Buscar por cargo, empresa, requisito ou salário..." />
         </div>
 
         <div class="pills-group" id="modelFilterGroup">
@@ -922,7 +1105,7 @@
       </div>
     </header>
 
-    <!-- ÁREA PRINCIPAL SPLIT (ESQUERDA: LISTA | DIREITA: PAINEL LATERAL FIXO) -->
+    <!-- ÁREA SPLIT -->
     <main class="workspace" id="workspaceArea">
       <section class="jobs-column" id="jobsListContainer" aria-label="Lista de vagas"></section>
 
@@ -932,13 +1115,12 @@
 
     <div id="emptyState" class="empty-state" style="display: none;">
       <p style="font-size: 1rem;"><strong>Nenhuma vaga encontrada.</strong></p>
-      <p style="font-size: 0.88rem; margin-top: 6px;">Ajuste os filtros ou clique em <strong>📥 Subir Planilha / IA</strong> para importar suas vagas.</p>
+      <p style="font-size: 0.88rem; margin-top: 6px;">Ajuste os filtros ou clique em <strong>Subir Planilha / IA</strong> para importar suas vagas.</p>
     </div>
 
-    <!-- RODAPÉ -->
     <footer class="footer-bar">
       <span id="footerStorageInfo">Armazenamento local (navegador)</span>
-      <button type="button" class="btn btn-secondary btn-sm" id="exportCsvBtn">📤 Exportar Planilha CSV (Backup)</button>
+      <span>Use o menu ⋮ no topo para backup e nuvem</span>
     </footer>
   </div>
 
@@ -946,7 +1128,7 @@
   <div class="modal-backdrop" id="cloudModal">
     <div class="modal" style="max-width: 520px;">
       <div class="modal-header">
-        <h2>☁️ Sincronização Online (Nuvem)</h2>
+        <h2>Sincronização Online (Nuvem)</h2>
         <button type="button" class="btn-close" data-close="cloudModal">&times;</button>
       </div>
       <form id="cloudForm">
@@ -962,10 +1144,10 @@
         </div>
 
         <div class="magic-box" id="magicLinkBox" style="display: none;">
-          <p style="font-size: 0.84rem; font-weight: 700; margin-bottom: 5px;">🔗 Link Rápido (Celular & Trabalho)</p>
+          <p style="font-size: 0.84rem; font-weight: 700; margin-bottom: 5px;">Link Rápido (Celular & Trabalho)</p>
           <p class="hint" style="margin-top: 0; margin-bottom: 8px;">Abra este link em outro aparelho para conectar automaticamente:</p>
           <input type="text" id="magicLinkInput" class="form-control" readonly style="font-size: 13px; margin-bottom: 8px;" />
-          <button type="button" class="btn btn-secondary btn-sm" id="copyMagicLinkBtn" style="width: 100%;">📋 Copiar Link Rápido</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="copyMagicLinkBtn" style="width: 100%;">Copiar Link Rápido</button>
         </div>
 
         <div class="modal-footer">
@@ -1045,18 +1227,17 @@
   <div class="modal-backdrop" id="importModal">
     <div class="modal">
       <div class="modal-header">
-        <h2>📥 Subir Vagas por Planilha</h2>
+        <h2>Subir Vagas por Planilha ou IA</h2>
         <button type="button" class="btn-close" data-close="importModal">&times;</button>
       </div>
 
-      <!-- MODELO PADRÃO VISÍVEL NA TELA -->
       <div class="template-card">
         <div class="template-card-top">
           <div>
-            <strong style="font-size: 0.9rem;">📋 Planilha Padrão para Envio</strong>
-            <p class="hint" style="margin-top:2px;">Baixe este modelo pronto, preencha no Excel/Google Planilhas e envie aqui em formato <code>.csv</code>:</p>
+            <strong style="font-size: 0.88rem;">Planilha Padrão para Envio</strong>
+            <p class="hint" style="margin-top:2px;">Baixe este modelo pronto, preencha no Excel/Google Planilhas e envie em <code>.csv</code>:</p>
           </div>
-          <button type="button" class="btn btn-primary btn-sm" id="downloadTemplateBtn">⬇️ Baixar Planilha Padrão (.csv)</button>
+          <button type="button" class="btn btn-primary btn-sm" id="downloadTemplateBtn">Baixar Planilha Padrão (.csv)</button>
         </div>
 
         <div class="template-preview-wrap">
@@ -1089,31 +1270,29 @@
         </div>
       </div>
 
-      <!-- MODO DE IMPORTAÇÃO -->
       <div class="import-mode-box">
         <label class="radio-option">
           <input type="radio" name="importMode" value="merge" checked />
           <span>
             <strong>Adicionar / Atualizar vagas</strong>
-            Mantém o painel atual, adiciona vagas novas e atualiza se o link já existir.
+            Mantém o painel atual, adiciona novas e atualiza se o link já existir.
           </span>
         </label>
         <label class="radio-option">
           <input type="radio" name="importMode" value="replace" />
           <span>
             <strong>Substituir lista atual pela planilha</strong>
-            Retira automaticamente as vagas que sumiram da planilha (e coloca de novo se você subir depois).
+            Retira automaticamente as vagas que sumiram da planilha (e traz de volta se subir depois).
           </span>
         </label>
       </div>
 
       <div class="tabs">
-        <button type="button" class="tab-btn active" data-tab="tabCsv">1. Enviar Arquivo (.csv)</button>
-        <button type="button" class="tab-btn" data-tab="tabPaste">2. Colar da Planilha</button>
-        <button type="button" class="tab-btn" data-tab="tabPrompt">3. 🤖 Prompt para IA</button>
+        <button type="button" class="tab-btn active" data-tab="tabCsv">1. Enviar (.csv)</button>
+        <button type="button" class="tab-btn" data-tab="tabPaste">2. Colar Planilha</button>
+        <button type="button" class="tab-btn" data-tab="tabPrompt">3. Prompt para IA</button>
       </div>
 
-      <!-- ABA 1: UPLOAD CSV -->
       <div class="tab-panel active" id="tabCsv">
         <div class="form-group">
           <label for="csvFileInput">Escolha o arquivo .csv preenchido</label>
@@ -1125,7 +1304,6 @@
         </div>
       </div>
 
-      <!-- ABA 2: COLAR -->
       <div class="tab-panel" id="tabPaste">
         <div class="form-group">
           <label for="pasteTextarea">Cole as linhas copiadas do Excel, Google Planilhas ou da IA</label>
@@ -1137,10 +1315,9 @@
         </div>
       </div>
 
-      <!-- ABA 3: PROMPT IA -->
       <div class="tab-panel" id="tabPrompt">
         <p class="hint" style="margin-top:0; margin-bottom:8px;">
-          Copie este comando, cole junto com o texto da página da vaga na IA e depois cole a resposta na aba <strong>Colar da Planilha</strong>:
+          Copie este comando, cole junto com o texto da página da vaga na IA e depois cole a resposta na aba <strong>Colar Planilha</strong>:
         </p>
         <div class="prompt-box" id="aiPromptText">Transforme as informações da(s) vaga(s) abaixo em um CSV separado por ponto e vírgula (;) usando exatamente estas 8 colunas na primeira linha:
 Cadastro da vaga;Empresa;Modelo;Salário;Requisitos;Atribuições;Mais detalhes;Link
@@ -1154,7 +1331,7 @@ Regras:
 
 TEXTO DA(S) VAGA(S):
 [COLE AQUI O TEXTO DA VAGA E O LINK]</div>
-        <button type="button" class="btn btn-soft btn-sm" id="copyAiPromptBtn" style="width: 100%;">📋 Copiar Prompt para IA</button>
+        <button type="button" class="btn btn-ai btn-sm" id="copyAiPromptBtn" style="width: 100%;">Copiar Prompt para IA</button>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-close="importModal">Fechar</button>
         </div>
@@ -1162,14 +1339,14 @@ TEXTO DA(S) VAGA(S):
     </div>
   </div>
 
-  <!-- MODAL: CONFIRMAÇÃO (LIMPAR LISTA) -->
+  <!-- MODAL: CONFIRMAÇÃO -->
   <div class="modal-backdrop" id="confirmModal">
     <div class="modal" style="max-width: 400px;">
       <div class="modal-header">
         <h2 id="confirmTitle">Confirmar Ação</h2>
         <button type="button" class="btn-close" data-close="confirmModal">&times;</button>
       </div>
-      <p id="confirmMessage" style="color: var(--text-secondary); font-size: 0.93rem;"></p>
+      <p id="confirmMessage" style="color: var(--text-secondary); font-size: 0.92rem;"></p>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-close="confirmModal">Cancelar</button>
         <button type="button" class="btn btn-danger" id="confirmActionBtn">Confirmar</button>
@@ -1182,9 +1359,6 @@ TEXTO DA(S) VAGA(S):
 
   <script>
     (() => {
-      // =========================================================
-      // CHAVES LOCAIS E ESTADO DO APP
-      // =========================================================
       const STORAGE_KEY = 'vagas_app_jobs_v1';
       const CLOUD_KEY = 'vagas_app_cloud_v1';
 
@@ -1255,7 +1429,7 @@ TEXTO DA(S) VAGA(S):
       let lastRemovedBackup = null;
 
       // =========================================================
-      // NORMALIZAÇÃO E ARMAZENAMENTO (COMPATÍVEL COM DADOS ANTIGOS)
+      // NORMALIZAÇÃO E NUVEM
       // =========================================================
       function normalizeJobRecord(item) {
         const atribuicoes = item.atribuicoes ?? item.responsabilidades ?? '';
@@ -1320,11 +1494,11 @@ TEXTO DA(S) VAGA(S):
         badge.textContent = text;
 
         if (cloudConfig) {
-          syncBtn.style.display = 'inline-flex';
+          syncBtn.style.display = 'flex';
           footerInfo.textContent = 'Sincronizado na Nuvem (Firebase) + Cache Local';
         } else {
           syncBtn.style.display = 'none';
-          footerInfo.textContent = 'Armazenamento local (configure a Nuvem para sincronizar aparelhos)';
+          footerInfo.textContent = 'Armazenamento local (configure a Nuvem no menu ⋮)';
         }
       }
 
@@ -1332,24 +1506,21 @@ TEXTO DA(S) VAGA(S):
         const endpoint = getCloudEndpoint();
         if (!endpoint) return true;
 
-        setCloudBadge('', '⏳ Salvando...');
+        setCloudBadge('', 'Salvando...');
         try {
           const res = await fetch(endpoint, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              jobs,
-              updatedAt: Date.now()
-            })
+            body: JSON.stringify({ jobs, updatedAt: Date.now() })
           });
           if (!res.ok) throw new Error('HTTP ' + res.status);
           const timeStr = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-          setCloudBadge('online', `☁️ Online (${timeStr})`);
+          setCloudBadge('online', `Online (${timeStr})`);
           if (!silent) showToast('Salvo na nuvem!');
           return true;
         } catch (err) {
           console.error('Erro ao salvar na nuvem:', err);
-          setCloudBadge('error', '⚠️ Erro ao salvar');
+          setCloudBadge('error', 'Erro ao salvar');
           showToast('Salvo localmente, mas falhou ao enviar para nuvem.');
           return false;
         }
@@ -1359,7 +1530,7 @@ TEXTO DA(S) VAGA(S):
         const endpoint = getCloudEndpoint();
         if (!endpoint) return false;
 
-        setCloudBadge('', '⏳ Sincronizando...');
+        setCloudBadge('', 'Sincronizando...');
         try {
           const res = await fetch(endpoint, { cache: 'no-store' });
           if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -1376,12 +1547,12 @@ TEXTO DA(S) VAGA(S):
           }
 
           const timeStr = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-          setCloudBadge('online', `☁️ Online (${timeStr})`);
+          setCloudBadge('online', `Online (${timeStr})`);
           if (!silent) showToast('Lista atualizada da nuvem!');
           return true;
         } catch (err) {
           console.error('Erro ao ler da nuvem:', err);
-          setCloudBadge('error', '⚠️ Offline / Erro');
+          setCloudBadge('error', 'Offline / Erro');
           if (!silent) showToast('Não foi possível conectar à nuvem.');
           return false;
         }
@@ -1389,9 +1560,7 @@ TEXTO DA(S) VAGA(S):
 
       async function saveAll() {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(jobs));
-        if (cloudConfig) {
-          await pushToCloud(true);
-        }
+        if (cloudConfig) await pushToCloud(true);
       }
 
       function checkMagicLinkOnBoot() {
@@ -1419,7 +1588,7 @@ TEXTO DA(S) VAGA(S):
       }
 
       // =========================================================
-      // UTILITÁRIOS DE SEGURANÇA E FORMATAÇÃO
+      // UTILITÁRIOS
       // =========================================================
       function generateId() {
         return 'vaga-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 6);
@@ -1460,6 +1629,12 @@ TEXTO DA(S) VAGA(S):
         if (modelo === 'Remoto') return 'badge badge-remoto';
         if (modelo === 'Híbrido') return 'badge badge-hibrido';
         return 'badge badge-presencial';
+      }
+
+      function getCompanyInitials(company) {
+        const words = String(company || 'VG').trim().split(/\s+/).filter(Boolean);
+        if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase();
+        return words[0].slice(0, 2).toUpperCase();
       }
 
       function formatStructuredText(raw) {
@@ -1512,7 +1687,41 @@ TEXTO DA(S) VAGA(S):
       }
 
       // =========================================================
-      // RENDERIZAÇÃO SPLIT-VIEW (ESQUERDA: RESUMO | DIREITA: LATERAL)
+      // CONTROLE DOS MENUS DE TRÊS PONTINHOS (⋮)
+      // =========================================================
+      function closeAllDropdowns() {
+        document.querySelectorAll('.dropdown-menu.open').forEach(menu => menu.classList.remove('open'));
+        const topBtn = document.getElementById('topbarMenuBtn');
+        if (topBtn) topBtn.setAttribute('aria-expanded', 'false');
+      }
+
+      document.getElementById('topbarMenuBtn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const menu = document.getElementById('topbarMenu');
+        const willOpen = !menu.classList.contains('open');
+        closeAllDropdowns();
+        if (willOpen) {
+          menu.classList.add('open');
+          e.currentTarget.setAttribute('aria-expanded', 'true');
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.menu-wrap')) {
+          closeAllDropdowns();
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeAllDropdowns();
+          closeMobileDrawer();
+          document.querySelectorAll('.modal-backdrop.open').forEach(m => m.classList.remove('open'));
+        }
+      });
+
+      // =========================================================
+      // RENDERIZAÇÃO SPLIT-VIEW
       // =========================================================
       const jobsListContainer = document.getElementById('jobsListContainer');
       const detailPanel = document.getElementById('detailPanel');
@@ -1541,7 +1750,7 @@ TEXTO DA(S) VAGA(S):
           detailPanel.innerHTML = `
             <div class="detail-body">
               <div class="detail-empty-box">
-                Selecione uma vaga na lista ao lado para visualizar requisitos, atribuições e mais detalhes.
+                Selecione uma vaga na lista ao lado para visualizar os detalhes.
               </div>
             </div>
           `;
@@ -1551,6 +1760,7 @@ TEXTO DA(S) VAGA(S):
         const safeId = escapeHtml(job.id);
         const safeTitle = escapeHtml(job.cargo);
         const safeCompany = escapeHtml(job.empresa);
+        const safeInitials = escapeHtml(getCompanyInitials(job.empresa));
         const safeModel = escapeHtml(job.modelo);
         const safeSalary = escapeHtml(job.salario);
         const safeLink = escapeHtml(sanitizeUrl(job.link));
@@ -1559,7 +1769,10 @@ TEXTO DA(S) VAGA(S):
         if (job.requisitos) {
           sections.push(`
             <section class="bento-card">
-              <h3>✅ Requisitos</h3>
+              <h3>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                Requisitos
+              </h3>
               ${formatStructuredText(job.requisitos)}
             </section>
           `);
@@ -1567,7 +1780,10 @@ TEXTO DA(S) VAGA(S):
         if (job.atribuicoes) {
           sections.push(`
             <section class="bento-card">
-              <h3>🎯 Atribuições</h3>
+              <h3>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                Atribuições
+              </h3>
               ${formatStructuredText(job.atribuicoes)}
             </section>
           `);
@@ -1575,7 +1791,10 @@ TEXTO DA(S) VAGA(S):
         if (job.maisDetalhes) {
           sections.push(`
             <section class="bento-card full-span">
-              <h3>📝 Mais detalhes</h3>
+              <h3>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                Mais detalhes
+              </h3>
               ${formatStructuredText(job.maisDetalhes)}
             </section>
           `);
@@ -1584,36 +1803,63 @@ TEXTO DA(S) VAGA(S):
         detailPanel.innerHTML = `
           <div class="detail-panel-header">
             <div class="detail-header-top">
-              <div>
-                <h2 class="detail-title">${safeTitle}</h2>
-                <p class="detail-company">${safeCompany}</p>
+              <div class="detail-identity">
+                <span class="company-avatar">${safeInitials}</span>
+                <div>
+                  <h2 class="detail-title">${safeTitle}</h2>
+                  <p class="detail-company">${safeCompany}</p>
+                </div>
               </div>
-              <button type="button" class="mobile-close-btn" id="closeMobileDetailBtn" aria-label="Fechar detalhes">&times;</button>
+
+              <div class="detail-header-controls">
+                <!-- MENU TRÊS PONTINHOS DA VAGA -->
+                <div class="menu-wrap">
+                  <button type="button" class="btn btn-icon" data-toggle-detail-menu aria-label="Opções da vaga">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="5" r="1"/>
+                      <circle cx="12" cy="12" r="1"/>
+                      <circle cx="12" cy="19" r="1"/>
+                    </svg>
+                  </button>
+                  <div class="dropdown-menu" id="detailActionMenu" role="menu">
+                    <button type="button" class="menu-item" data-edit-id="${safeId}">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+                      Editar vaga
+                    </button>
+                    <button type="button" class="menu-item" data-copy-link="${safeLink}">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                      Copiar link da vaga
+                    </button>
+                    <div class="menu-divider"></div>
+                    <button type="button" class="menu-item danger" data-remove-id="${safeId}">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>
+                      Vaga não existe mais
+                    </button>
+                  </div>
+                </div>
+
+                <button type="button" class="mobile-close-btn" id="closeMobileDetailBtn" aria-label="Fechar detalhes">&times;</button>
+              </div>
             </div>
 
-            <div class="detail-badges">
-              <span class="${getBadgeClass(job.modelo)}">${safeModel}</span>
-              ${safeSalary ? `<span class="salary-pill">💰 ${safeSalary}</span>` : ''}
-            </div>
+            <div class="detail-footer-bar">
+              <div class="detail-badges">
+                <span class="${getBadgeClass(job.modelo)}">${safeModel}</span>
+                ${safeSalary ? `<span class="salary-pill">${safeSalary}</span>` : ''}
+              </div>
 
-            <div class="detail-actions">
               <a href="${safeLink}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
-                Acessar Vaga ↗
+                Acessar Vaga
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
               </a>
-              <button type="button" class="btn btn-secondary btn-sm" data-edit-id="${safeId}">
-                ✏️ Editar
-              </button>
-              <button type="button" class="btn btn-ghost-danger btn-sm" data-remove-id="${safeId}">
-                🚫 Vaga não existe mais
-              </button>
             </div>
           </div>
 
           <div class="detail-body">
             ${sections.length > 0 ? sections.join('') : `
               <div class="detail-empty-box">
-                <p><strong>Esta vaga ainda está só com os dados básicos.</strong></p>
-                <p style="margin-top:4px;">Clique em <strong>✏️ Editar</strong> para preencher salário, requisitos, atribuições e mais detalhes, ou envie pela planilha.</p>
+                <p><strong>Esta vaga está apenas com os dados principais.</strong></p>
+                <p style="margin-top:4px;">Use o menu <strong>⋮ → Editar vaga</strong> acima ou envie sua planilha completa para preencher requisitos e atribuições.</p>
               </div>
             `}
           </div>
@@ -1662,7 +1908,7 @@ TEXTO DA(S) VAGA(S):
                   <span class="${getBadgeClass(job.modelo)}">${safeModel}</span>
                   ${safeSalary ? `<span class="salary-pill">${safeSalary}</span>` : ''}
                 </div>
-                <span class="job-item-hint">Mais detalhes →</span>
+                <span class="job-item-arrow">Detalhes →</span>
               </div>
             </button>
           `;
@@ -1678,6 +1924,7 @@ TEXTO DA(S) VAGA(S):
       jobsListContainer.addEventListener('click', (e) => {
         const card = e.target.closest('[data-select-id]');
         if (!card) return;
+        closeAllDropdowns();
         selectedJobId = card.dataset.selectId;
         render();
 
@@ -1695,14 +1942,39 @@ TEXTO DA(S) VAGA(S):
           return;
         }
 
+        const toggleDetailMenu = e.target.closest('[data-toggle-detail-menu]');
+        if (toggleDetailMenu) {
+          e.stopPropagation();
+          const menu = document.getElementById('detailActionMenu');
+          const willOpen = menu && !menu.classList.contains('open');
+          closeAllDropdowns();
+          if (menu && willOpen) menu.classList.add('open');
+          return;
+        }
+
         const editBtn = e.target.closest('[data-edit-id]');
         if (editBtn) {
+          closeAllDropdowns();
           openEditModal(editBtn.dataset.editId);
+          return;
+        }
+
+        const copyBtn = e.target.closest('[data-copy-link]');
+        if (copyBtn) {
+          closeAllDropdowns();
+          const url = copyBtn.dataset.copyLink;
+          try {
+            await navigator.clipboard.writeText(url);
+            showToast('Link da vaga copiado!');
+          } catch {
+            showToast('Não foi possível copiar o link.');
+          }
           return;
         }
 
         const removeBtn = e.target.closest('[data-remove-id]');
         if (removeBtn) {
+          closeAllDropdowns();
           await removeJobInstant(removeBtn.dataset.removeId);
         }
       });
@@ -1720,13 +1992,16 @@ TEXTO DA(S) VAGA(S):
         closeMobileDrawer();
         render();
         await saveAll();
-        showToast('Vaga removida do painel.', true);
+        showToast('Vaga marcada como encerrada e removida.', true);
       }
 
       // =========================================================
       // MODAIS GERAIS
       // =========================================================
-      function openModal(id) { document.getElementById(id).classList.add('open'); }
+      function openModal(id) {
+        closeAllDropdowns();
+        document.getElementById(id).classList.add('open');
+      }
       function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
       document.querySelectorAll('[data-close]').forEach(btn => {
@@ -1769,6 +2044,7 @@ TEXTO DA(S) VAGA(S):
       });
 
       document.getElementById('syncNowBtn').addEventListener('click', () => {
+        closeAllDropdowns();
         pullFromCloud(false);
       });
 
@@ -1806,7 +2082,7 @@ TEXTO DA(S) VAGA(S):
             showToast('Conectado! Vagas enviadas para a nuvem.');
           }
 
-          setCloudBadge('online', '☁️ Online');
+          setCloudBadge('online', 'Online');
           refreshCloudModalUI();
         } catch (err) {
           console.error(err);
@@ -1832,7 +2108,7 @@ TEXTO DA(S) VAGA(S):
       document.getElementById('disconnectCloudBtn').addEventListener('click', () => {
         cloudConfig = null;
         localStorage.removeItem(CLOUD_KEY);
-        setCloudBadge('', '💾 Local');
+        setCloudBadge('', 'Local');
         refreshCloudModalUI();
         showToast('Nuvem desconectada neste navegador.');
       });
@@ -1895,10 +2171,11 @@ TEXTO DA(S) VAGA(S):
       });
 
       document.getElementById('clearAllBtn').addEventListener('click', () => {
+        closeAllDropdowns();
         if (jobs.length === 0) { showToast('A lista já está vazia.'); return; }
-        document.getElementById('confirmTitle').textContent = 'Limpar Todas as Vagas';
+        document.getElementById('confirmTitle').textContent = 'Limpar toda a lista';
         document.getElementById('confirmMessage').textContent =
-          'Isso removerá todas as vagas do painel (e da nuvem, se conectada). Exporte um CSV antes se quiser guardar backup.';
+          'Isso removerá todas as vagas do painel (e da nuvem, se conectada). Exporte um backup CSV antes se quiser guardar.';
         pendingConfirmAction = async () => {
           jobs = [];
           selectedJobId = null;
@@ -2059,7 +2336,6 @@ TEXTO DA(S) VAGA(S):
           const cargo = getCol(idx.cargo !== -1 ? idx.cargo : 0);
           if (!cargo) continue;
 
-          // Se vier sem cabeçalho no formato antigo de 4 colunas (cargo;empresa;link;modelo)
           let modelo = getCol(idx.modelo);
           let link = getCol(idx.link);
           if (!hasHeader && cols.length <= 4) {
@@ -2170,6 +2446,7 @@ TEXTO DA(S) VAGA(S):
       });
 
       document.getElementById('exportCsvBtn').addEventListener('click', () => {
+        closeAllDropdowns();
         if (jobs.length === 0) { showToast('Não há vagas para exportar.'); return; }
         const escapeCsv = (val) => `"${String(val ?? '').replace(/"/g, '""')}"`;
         const header = 'Cadastro da vaga;Empresa;Modelo;Salário;Requisitos;Atribuições;Mais detalhes;Link';
@@ -2197,10 +2474,10 @@ TEXTO DA(S) VAGA(S):
       render();
 
       if (cloudConfig) {
-        setCloudBadge('', '⏳ Sincronizando...');
+        setCloudBadge('', 'Sincronizando...');
         pullFromCloud(true);
       } else {
-        setCloudBadge('', '💾 Local');
+        setCloudBadge('', 'Local');
       }
     })();
   </script>
