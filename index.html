@@ -6,18 +6,23 @@
   <title>Minhas Vagas | Painel Online</title>
   <style>
     /* =========================================================
-       DESIGN SYSTEM & VARIÁVEIS (MOBILE-FIRST, CLEAN UI)
+       DESIGN SYSTEM & VARIÁVEIS (CLEAN UI, MOBILE-FIRST)
        ========================================================= */
     :root {
-      --bg-page: #f8fafc;
+      --bg-page: #f1f5f9;
       --bg-card: #ffffff;
-      --bg-subtle: #f1f5f9;
+      --bg-subtle: #f8fafc;
+      --bg-hover: #f8fafc;
+
       --text-main: #0f172a;
+      --text-secondary: #334155;
       --text-muted: #64748b;
       --border-color: #e2e8f0;
+      --border-strong: #cbd5e1;
 
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
+      --primary-soft: #eff6ff;
 
       --success-bg: #dcfce7;
       --success-text: #166534;
@@ -29,17 +34,23 @@
       --warn-border: #f59e0b;
       --warn-text: #92400e;
 
-      --badge-remoto-bg: #dcfce7;
-      --badge-remoto-text: #166534;
-      --badge-hibrido-bg: #e0e7ff;
-      --badge-hibrido-text: #3730a3;
-      --badge-presencial-bg: #ffedd5;
-      --badge-presencial-text: #9a3412;
+      --badge-remoto-bg: #ecfdf5;
+      --badge-remoto-text: #047857;
+      --badge-remoto-dot: #10b981;
 
-      --radius: 12px;
-      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
-      --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
-      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --badge-hibrido-bg: #eef2ff;
+      --badge-hibrido-text: #4338ca;
+      --badge-hibrido-dot: #6366f1;
+
+      --badge-presencial-bg: #fff7ed;
+      --badge-presencial-text: #c2410c;
+      --badge-presencial-dot: #f97316;
+
+      --radius: 14px;
+      --radius-sm: 10px;
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.03);
+      --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05);
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -48,76 +59,96 @@
       font-family: var(--font-sans);
       background-color: var(--bg-page);
       color: var(--text-main);
-      line-height: 1.5;
+      line-height: 1.55;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
 
     .container {
       width: 100%;
-      max-width: 1040px;
+      max-width: 1120px;
       margin: 0 auto;
       padding: 16px;
     }
 
     /* =========================================================
-       CABEÇALHO E CONTROLES DE TRAVA + NUVEM
+       CABEÇALHO E CONTROLES
        ========================================================= */
     .header {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius);
-      padding: 16px;
+      padding: 18px 20px;
       box-shadow: var(--shadow-sm);
-      margin-bottom: 16px;
-      transition: border-color 0.2s ease;
+      margin-bottom: 18px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
     body.is-unlocked .header {
       border-color: var(--warn-border);
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.12);
     }
 
     .header-top {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
+    }
+
+    .brand-title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
 
     .brand h1 {
       font-size: 1.25rem;
       font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
+      letter-spacing: -0.02em;
     }
 
     .brand p {
       font-size: 0.875rem;
       color: var(--text-muted);
-      margin-top: 2px;
+      margin-top: 3px;
     }
 
     .cloud-badge {
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 700;
-      padding: 3px 9px;
+      padding: 4px 10px;
       border-radius: 999px;
-      background: var(--bg-subtle);
+      background: var(--bg-page);
       color: var(--text-muted);
+      border: 1px solid var(--border-color);
     }
 
     .cloud-badge.online {
       background: var(--success-bg);
       color: var(--success-text);
+      border-color: #bbf7d0;
     }
 
     .cloud-badge.error {
       background: var(--danger-soft);
       color: var(--danger);
+      border-color: #fecaca;
     }
 
     .lock-controls {
@@ -133,9 +164,9 @@
       gap: 6px;
       font-size: 0.8rem;
       font-weight: 600;
-      padding: 6px 10px;
+      padding: 6px 12px;
       border-radius: 999px;
-      background: var(--bg-subtle);
+      background: var(--bg-page);
       color: var(--text-muted);
     }
 
@@ -147,9 +178,9 @@
 
     .edit-toolbar {
       display: none;
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px dashed var(--border-color);
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--border-strong);
       flex-wrap: wrap;
       gap: 8px;
     }
@@ -159,36 +190,46 @@
     }
 
     /* =========================================================
-       BOTÕES (TOUCH-FRIENDLY >= 44px)
+       BOTÕES
        ========================================================= */
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      min-height: 44px;
-      padding: 10px 16px;
-      font-size: 0.92rem;
+      gap: 7px;
+      min-height: 42px;
+      padding: 9px 15px;
+      font-size: 0.89rem;
       font-weight: 600;
       font-family: inherit;
-      border-radius: 10px;
+      border-radius: var(--radius-sm);
       border: 1px solid transparent;
       cursor: pointer;
       text-decoration: none;
-      transition: background-color 0.15s ease, transform 0.08s ease;
+      transition: all 0.15s ease;
       user-select: none;
+      white-space: nowrap;
     }
 
     .btn:active { transform: scale(0.98); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
     .btn-primary { background: var(--primary); color: #fff; }
     .btn-primary:hover { background: var(--primary-hover); }
+
+    .btn-soft {
+      background: var(--primary-soft);
+      color: var(--primary);
+      border-color: #dbeafe;
+    }
+    .btn-soft:hover { background: #dbeafe; }
 
     .btn-secondary {
       background: var(--bg-card);
       color: var(--text-main);
       border-color: var(--border-color);
     }
-    .btn-secondary:hover { background: var(--bg-subtle); }
+    .btn-secondary:hover { background: var(--bg-subtle); border-color: var(--border-strong); }
 
     .btn-warning {
       background: var(--warn-bg);
@@ -202,11 +243,13 @@
       color: var(--danger);
       border-color: #fecaca;
     }
+    .btn-ghost-danger:hover { background: #fee2e2; }
 
     .btn-sm {
-      min-height: 38px;
+      min-height: 36px;
       padding: 6px 12px;
-      font-size: 0.85rem;
+      font-size: 0.83rem;
+      border-radius: 8px;
     }
 
     /* =========================================================
@@ -216,13 +259,13 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
     .search-wrap { position: relative; width: 100%; }
     .search-wrap svg {
       position: absolute;
-      left: 14px;
+      left: 15px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-muted);
@@ -232,25 +275,27 @@
     .search-input {
       width: 100%;
       min-height: 46px;
-      padding: 10px 14px 10px 42px;
-      font-size: 16px;
+      padding: 10px 14px 10px 44px;
+      font-size: 15px;
       font-family: inherit;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius);
       color: var(--text-main);
       box-shadow: var(--shadow-sm);
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
 
     .search-input:focus {
-      outline: 2px solid rgba(37, 99, 235, 0.25);
+      outline: none;
       border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
     }
 
     .filter-pills {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
       align-items: center;
       justify-content: space-between;
     }
@@ -258,45 +303,81 @@
     .pills-group { display: flex; flex-wrap: wrap; gap: 8px; }
 
     .pill-btn {
-      min-height: 38px;
+      min-height: 36px;
       padding: 6px 14px;
       border-radius: 999px;
       border: 1px solid var(--border-color);
       background: var(--bg-card);
       color: var(--text-muted);
-      font-size: 0.875rem;
+      font-size: 0.85rem;
       font-weight: 600;
       font-family: inherit;
       cursor: pointer;
+      transition: all 0.15s ease;
     }
 
+    .pill-btn:hover { border-color: var(--border-strong); color: var(--text-main); }
     .pill-btn.active {
       background: var(--text-main);
       color: #fff;
       border-color: var(--text-main);
     }
 
-    .counter-text { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
+    .counter-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      background: var(--bg-card);
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+    }
 
     /* =========================================================
-       BADGES DE MODELO DE TRABALHO
+       BADGES
        ========================================================= */
     .badge {
       display: inline-flex;
       align-items: center;
+      gap: 6px;
       padding: 4px 10px;
       border-radius: 999px;
-      font-size: 0.78rem;
+      font-size: 0.77rem;
       font-weight: 700;
       white-space: nowrap;
     }
 
+    .badge::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
     .badge-remoto { background: var(--badge-remoto-bg); color: var(--badge-remoto-text); }
+    .badge-remoto::before { background: var(--badge-remoto-dot); }
+
     .badge-hibrido { background: var(--badge-hibrido-bg); color: var(--badge-hibrido-text); }
+    .badge-hibrido::before { background: var(--badge-hibrido-dot); }
+
     .badge-presencial { background: var(--badge-presencial-bg); color: var(--badge-presencial-text); }
+    .badge-presencial::before { background: var(--badge-presencial-dot); }
+
+    .detail-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg-page);
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-top: 5px;
+    }
 
     /* =========================================================
-       MOBILE (CARTÕES) & DESKTOP (TABELA)
+       MOBILE (CARTÕES) & DESKTOP (TABELA LIMPA)
        ========================================================= */
     .cards-list { display: flex; flex-direction: column; gap: 12px; }
 
@@ -315,14 +396,42 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 10px;
+      gap: 12px;
     }
 
-    .job-title { font-size: 1.05rem; font-weight: 700; word-break: break-word; }
-    .job-company { font-size: 0.92rem; color: var(--text-muted); font-weight: 500; margin-top: 2px; word-break: break-word; }
+    .job-title-btn {
+      background: none;
+      border: none;
+      padding: 0;
+      text-align: left;
+      font-family: inherit;
+      font-size: 1.04rem;
+      font-weight: 700;
+      color: var(--text-main);
+      cursor: pointer;
+      word-break: break-word;
+    }
+    .job-title-btn:hover { color: var(--primary); }
+
+    .job-company {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 2px;
+      word-break: break-word;
+    }
+
+    .job-preview {
+      font-size: 0.86rem;
+      color: var(--text-secondary);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
 
     .job-card-actions { display: flex; flex-direction: column; gap: 8px; }
-    .job-card-actions .btn-access { width: 100%; }
+    .job-primary-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
     .edit-row-actions { display: none; gap: 8px; }
     body.is-unlocked .edit-row-actions { display: flex; }
@@ -341,29 +450,36 @@
     thead th {
       background: var(--bg-subtle);
       color: var(--text-muted);
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
-      padding: 14px 16px;
+      letter-spacing: 0.05em;
+      padding: 14px 18px;
       border-bottom: 1px solid var(--border-color);
     }
 
     tbody td {
-      padding: 14px 16px;
+      padding: 15px 18px;
       border-bottom: 1px solid var(--border-color);
       vertical-align: middle;
-      font-size: 0.95rem;
+      font-size: 0.94rem;
     }
     tbody tr:last-child td { border-bottom: none; }
-    tbody tr:hover { background: #f8fafc; }
+    tbody tr { transition: background-color 0.12s ease; }
+    tbody tr:hover { background: var(--bg-hover); }
 
-    .col-edit-only { display: none; width: 160px; text-align: right; }
+    .table-actions {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .col-edit-only { display: none; width: 170px; text-align: right; }
     body.is-unlocked .col-edit-only { display: table-cell; }
     .table-edit-btns { display: inline-flex; gap: 6px; }
 
     @media (min-width: 768px) {
-      .container { padding: 24px; }
+      .container { padding: 28px 24px; }
       .header-top { flex-direction: row; align-items: center; justify-content: space-between; }
       .cards-list { display: none; }
       .table-wrap { display: block; }
@@ -374,9 +490,9 @@
        ========================================================= */
     .empty-state {
       text-align: center;
-      padding: 48px 20px;
+      padding: 54px 20px;
       background: var(--bg-card);
-      border: 1px dashed var(--border-color);
+      border: 1px dashed var(--border-strong);
       border-radius: var(--radius);
       color: var(--text-muted);
     }
@@ -395,12 +511,13 @@
     }
 
     /* =========================================================
-       MODAIS E TOAST
+       MODAIS & DETALHES DA VAGA
        ========================================================= */
     .modal-backdrop {
       position: fixed;
       inset: 0;
       background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(2px);
       display: none;
       align-items: center;
       justify-content: center;
@@ -412,49 +529,136 @@
     .modal {
       background: var(--bg-card);
       width: 100%;
-      max-width: 540px;
+      max-width: 600px;
       max-height: 92vh;
       overflow-y: auto;
-      border-radius: 16px;
+      border-radius: 18px;
       box-shadow: var(--shadow-md);
-      padding: 20px;
+      padding: 22px;
+      animation: modalIn 0.16s ease-out;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(8px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .modal-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
+      gap: 12px;
       margin-bottom: 16px;
     }
-    .modal-header h2 { font-size: 1.15rem; font-weight: 700; }
+    .modal-header h2 { font-size: 1.18rem; font-weight: 700; line-height: 1.3; }
 
     .btn-close {
-      background: var(--bg-subtle);
-      border: none;
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
+      background: var(--bg-page);
+      border: 1px solid var(--border-color);
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
       font-size: 1.2rem;
+      line-height: 1;
       cursor: pointer;
       color: var(--text-muted);
+      flex-shrink: 0;
+    }
+    .btn-close:hover { background: var(--border-color); color: var(--text-main); }
+
+    /* Seções dentro do modal de Detalhes */
+    .detail-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .detail-company { font-size: 0.95rem; font-weight: 600; color: var(--text-secondary); }
+
+    .detail-sections {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .detail-card {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+
+    .detail-card h3 {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .detail-card p {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      white-space: pre-line;
+    }
+
+    .detail-list {
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+    }
+
+    .detail-empty {
+      text-align: center;
+      padding: 24px 16px;
+      background: var(--bg-subtle);
+      border-radius: 12px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Formulários */
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 540px) {
+      .form-grid-2 { grid-template-columns: 1fr 1fr; }
     }
 
     .form-group { margin-bottom: 14px; }
-    .form-group label { display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 6px; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: var(--text-main); }
 
     .form-control {
       width: 100%;
-      min-height: 44px;
-      padding: 10px 12px;
-      font-size: 16px;
+      min-height: 42px;
+      padding: 9px 12px;
+      font-size: 15px;
       font-family: inherit;
       border: 1px solid var(--border-color);
-      border-radius: 10px;
+      border-radius: var(--radius-sm);
       background: var(--bg-card);
       color: var(--text-main);
     }
 
-    textarea.form-control { min-height: 140px; resize: vertical; font-size: 14px; }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    textarea.form-control { min-height: 92px; resize: vertical; font-size: 14px; line-height: 1.45; }
 
     .modal-footer {
       display: flex;
@@ -462,23 +666,26 @@
       justify-content: flex-end;
       gap: 8px;
       margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-color);
     }
 
     .tabs {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       margin-bottom: 14px;
-      background: var(--bg-subtle);
+      background: var(--bg-page);
       padding: 4px;
       border-radius: 10px;
     }
 
     .tab-btn {
       flex: 1;
-      min-height: 40px;
+      min-height: 38px;
       border: none;
       background: transparent;
       border-radius: 8px;
+      font-size: 0.85rem;
       font-weight: 600;
       font-family: inherit;
       color: var(--text-muted);
@@ -489,7 +696,43 @@
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
 
-    .hint { font-size: 0.82rem; color: var(--text-muted); margin-top: 6px; }
+    .import-mode-box {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.86rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+    }
+    .radio-option input { margin-top: 3px; }
+    .radio-option strong { color: var(--text-main); display: block; }
+
+    .prompt-box {
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 10px;
+      padding: 14px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12.5px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      max-height: 240px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+    }
+
+    .hint { font-size: 0.81rem; color: var(--text-muted); margin-top: 5px; }
     .error-text { color: var(--danger); font-size: 0.85rem; font-weight: 600; margin-top: 6px; display: none; }
 
     .magic-box {
@@ -502,21 +745,21 @@
 
     .toast {
       position: fixed;
-      bottom: 20px;
+      bottom: 22px;
       left: 50%;
       transform: translateX(-50%) translateY(80px);
       background: var(--text-main);
       color: #fff;
-      padding: 12px 18px;
+      padding: 11px 18px;
       border-radius: 999px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 600;
       box-shadow: var(--shadow-md);
       opacity: 0;
       transition: all 0.25s ease;
       z-index: 2000;
       white-space: nowrap;
-      max-width: 90vw;
+      max-width: 92vw;
       overflow: hidden;
       text-overflow: ellipsis;
     }
@@ -529,35 +772,41 @@
     <header class="header">
       <div class="header-top">
         <div class="brand">
-          <h1>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);">
-              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-            </svg>
-            Minhas Vagas
-            <span class="cloud-badge" id="cloudBadge">💾 Local</span>
-          </h1>
-          <p id="syncSubtitle">Painel rápido e seguro para acompanhar oportunidades</p>
+          <div class="brand-title-row">
+            <span class="brand-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+            </span>
+            <div>
+              <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                <h1>Minhas Vagas</h1>
+                <span class="cloud-badge" id="cloudBadge">💾 Local</span>
+              </div>
+              <p id="syncSubtitle">Acompanhe oportunidades, requisitos e detalhes em um só lugar</p>
+            </div>
+          </div>
         </div>
 
         <div class="lock-controls">
           <button type="button" class="btn btn-secondary btn-sm" id="syncNowBtn" style="display: none;" title="Buscar atualizações da nuvem">
             🔄 Atualizar
           </button>
-          <span class="status-pill" id="lockStatusText">🔒 Modo Visualização</span>
-          <button type="button" class="btn btn-secondary" id="toggleLockBtn">
+          <span class="status-pill" id="lockStatusText">🔒 Visualização</span>
+          <button type="button" class="btn btn-secondary btn-sm" id="toggleLockBtn">
             Desbloquear Edição
           </button>
         </div>
       </div>
 
-      <!-- FERRAMENTAS VISÍVEIS APENAS COM EDIÇÃO DESBLOQUEADA -->
+      <!-- FERRAMENTAS DE EDIÇÃO -->
       <div class="edit-toolbar">
-        <button type="button" class="btn btn-primary" id="openAddModalBtn">+ Nova Vaga</button>
-        <button type="button" class="btn btn-secondary" id="openImportModalBtn">📥 Importar Vagas</button>
-        <button type="button" class="btn btn-secondary" id="openCloudModalBtn">☁️ Nuvem Online</button>
-        <button type="button" class="btn btn-secondary" id="openPinSettingsBtn">🔑 Alterar PIN</button>
-        <button type="button" class="btn btn-ghost-danger" id="clearAllBtn">Limpar Tudo</button>
+        <button type="button" class="btn btn-primary btn-sm" id="openAddModalBtn">+ Nova Vaga</button>
+        <button type="button" class="btn btn-secondary btn-sm" id="openImportModalBtn">📥 Importar Planilha / IA</button>
+        <button type="button" class="btn btn-secondary btn-sm" id="openCloudModalBtn">☁️ Nuvem</button>
+        <button type="button" class="btn btn-secondary btn-sm" id="openPinSettingsBtn">🔑 PIN</button>
+        <button type="button" class="btn btn-ghost-danger btn-sm" id="clearAllBtn">🗑️ Retirar Todas</button>
       </div>
     </header>
 
@@ -568,7 +817,7 @@
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="search" id="searchInput" class="search-input" placeholder="Buscar por cargo ou empresa..." />
+        <input type="search" id="searchInput" class="search-input" placeholder="Buscar por cargo, empresa ou requisito..." />
       </div>
 
       <div class="filter-pills">
@@ -582,20 +831,19 @@
       </div>
     </section>
 
-    <!-- LISTAGEM: CARTÕES NO CELULAR -->
+    <!-- LISTAGEM -->
     <main>
       <div id="cardsContainer" class="cards-list"></div>
 
-      <!-- LISTAGEM: TABELA NO COMPUTADOR -->
       <div id="tableWrap" class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Cargo</th>
+              <th>Vaga / Cargo</th>
               <th>Empresa</th>
               <th>Modelo</th>
-              <th style="width: 170px;">Link</th>
-              <th class="col-edit-only">Ações</th>
+              <th style="width: 245px;">Acesso</th>
+              <th class="col-edit-only">Gerenciar</th>
             </tr>
           </thead>
           <tbody id="tableBody"></tbody>
@@ -603,16 +851,46 @@
       </div>
 
       <div id="emptyState" class="empty-state" style="display: none;">
-        <p><strong>Nenhuma vaga encontrada.</strong></p>
-        <p style="font-size: 0.9rem; margin-top: 6px;">Ajuste os filtros ou desbloqueie a edição para adicionar novas vagas.</p>
+        <p style="font-size: 1.02rem;"><strong>Nenhuma vaga encontrada.</strong></p>
+        <p style="font-size: 0.9rem; margin-top: 6px;">Ajuste os filtros ou desbloqueie a edição para subir sua planilha ou cadastrar novas vagas.</p>
       </div>
     </main>
 
     <!-- RODAPÉ -->
     <footer class="footer-bar">
       <span id="footerStorageInfo">Armazenamento local (navegador)</span>
-      <button type="button" class="btn btn-secondary btn-sm" id="exportCsvBtn">📤 Exportar CSV (Backup)</button>
+      <button type="button" class="btn btn-secondary btn-sm" id="exportCsvBtn">📤 Exportar Planilha CSV (Backup)</button>
     </footer>
+  </div>
+
+  <!-- MODAL: DETALHES DA VAGA -->
+  <div class="modal-backdrop" id="detailsModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h2 id="detailTitle">Cargo da Vaga</h2>
+        </div>
+        <button type="button" class="btn-close" data-close="detailsModal">&times;</button>
+      </div>
+
+      <div class="detail-meta">
+        <span class="detail-company" id="detailCompany">Empresa</span>
+        <span id="detailBadgeWrap"></span>
+      </div>
+
+      <div class="detail-sections" id="detailSections"></div>
+
+      <div class="modal-footer">
+        <div id="detailEditButtons" style="display:none; margin-right:auto; gap:8px;">
+          <button type="button" class="btn btn-secondary btn-sm" id="detailEditBtn">Editar</button>
+          <button type="button" class="btn btn-ghost-danger btn-sm" id="detailDeleteBtn">Retirar Vaga</button>
+        </div>
+        <button type="button" class="btn btn-secondary" data-close="detailsModal">Fechar</button>
+        <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="detailLinkBtn">
+          Acessar Vaga ↗
+        </a>
+      </div>
+    </div>
   </div>
 
   <!-- MODAL: PIN -->
@@ -657,7 +935,7 @@
     </div>
   </div>
 
-  <!-- MODAL: CONECTAR NUVEM ONLINE (FIREBASE REALTIME DATABASE) -->
+  <!-- MODAL: NUVEM -->
   <div class="modal-backdrop" id="cloudModal">
     <div class="modal">
       <div class="modal-header">
@@ -673,12 +951,12 @@
         <div class="form-group">
           <label for="cloudFolderInput">Código da Pasta Secreta *</label>
           <input type="text" id="cloudFolderInput" class="form-control" placeholder="Ex: vagas_jp_2026" required pattern="[A-Za-z0-9_-]{4,40}" />
-          <p class="hint">Use letras, números ou underline (sem espaços). Funciona como chave privada para seus dados.</p>
+          <p class="hint">Use letras, números ou underline (sem espaços).</p>
         </div>
 
         <div class="magic-box" id="magicLinkBox" style="display: none;">
           <p style="font-size: 0.85rem; font-weight: 700; margin-bottom: 6px;">🔗 Link Rápido (Celular & Trabalho)</p>
-          <p class="hint" style="margin-top: 0; margin-bottom: 8px;">Envie este link para seu WhatsApp ou email. Ao abrir em outro aparelho, ele já conecta automaticamente:</p>
+          <p class="hint" style="margin-top: 0; margin-bottom: 8px;">Abra este link em outro aparelho para conectar automaticamente:</p>
           <input type="text" id="magicLinkInput" class="form-control" readonly style="font-size: 13px; margin-bottom: 8px;" />
           <button type="button" class="btn btn-secondary btn-sm" id="copyMagicLinkBtn" style="width: 100%;">📋 Copiar Link Rápido</button>
         </div>
@@ -701,26 +979,53 @@
       </div>
       <form id="jobForm">
         <input type="hidden" id="jobIdInput" />
-        <div class="form-group">
-          <label for="jobTitleInput">Nome do Cargo *</label>
-          <input type="text" id="jobTitleInput" class="form-control" placeholder="Ex: Auxiliar Administrativo" required />
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="jobTitleInput">Nome do Cargo *</label>
+            <input type="text" id="jobTitleInput" class="form-control" placeholder="Ex: Auxiliar Administrativo" required />
+          </div>
+          <div class="form-group">
+            <label for="jobCompanyInput">Empresa *</label>
+            <input type="text" id="jobCompanyInput" class="form-control" placeholder="Ex: Ceneged" required />
+          </div>
         </div>
-        <div class="form-group">
-          <label for="jobCompanyInput">Empresa *</label>
-          <input type="text" id="jobCompanyInput" class="form-control" placeholder="Ex: Ceneged" required />
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="jobModelInput">Modelo de Trabalho *</label>
+            <select id="jobModelInput" class="form-control" required>
+              <option value="Presencial">Presencial</option>
+              <option value="Híbrido">Híbrido</option>
+              <option value="Remoto">Remoto</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="jobLinkInput">Link da Vaga *</label>
+            <input type="url" id="jobLinkInput" class="form-control" placeholder="https://..." required />
+          </div>
         </div>
+
         <div class="form-group">
-          <label for="jobModelInput">Modelo de Trabalho *</label>
-          <select id="jobModelInput" class="form-control" required>
-            <option value="Presencial">Presencial</option>
-            <option value="Híbrido">Híbrido</option>
-            <option value="Remoto">Remoto</option>
-          </select>
+          <label for="jobDescInput">Descrição da Vaga</label>
+          <textarea id="jobDescInput" class="form-control" placeholder="Resumo geral sobre a vaga e objetivo da posição..."></textarea>
         </div>
+
         <div class="form-group">
-          <label for="jobLinkInput">Link da Vaga *</label>
-          <input type="url" id="jobLinkInput" class="form-control" placeholder="https://..." required />
+          <label for="jobRespInput">Responsabilidades e Atribuições</label>
+          <textarea id="jobRespInput" class="form-control" placeholder="Separe os itens por linha ou ponto e vírgula (;)..."></textarea>
         </div>
+
+        <div class="form-group">
+          <label for="jobReqInput">Requisitos e Qualificações</label>
+          <textarea id="jobReqInput" class="form-control" placeholder="Ex: Ensino Superior cursando; Excel intermediário..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="jobDesejInput">Requisitos Desejáveis</label>
+          <textarea id="jobDesejInput" class="form-control" placeholder="Diferenciais da vaga..."></textarea>
+        </div>
+
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-close="jobModal">Cancelar</button>
           <button type="submit" class="btn btn-primary">Salvar Vaga</button>
@@ -733,23 +1038,45 @@
   <div class="modal-backdrop" id="importModal">
     <div class="modal">
       <div class="modal-header">
-        <h2>Importar Vagas em Lote</h2>
+        <h2>Importar Vagas via Planilha ou IA</h2>
         <button type="button" class="btn-close" data-close="importModal">&times;</button>
       </div>
 
-      <div class="tabs">
-        <button type="button" class="tab-btn active" data-tab="tabCsv">Upload de .CSV</button>
-        <button type="button" class="tab-btn" data-tab="tabPaste">Colar Texto</button>
+      <!-- MODO DE IMPORTAÇÃO -->
+      <div class="import-mode-box">
+        <label class="radio-option">
+          <input type="radio" name="importMode" value="merge" checked />
+          <span>
+            <strong>Adicionar / Atualizar vagas</strong>
+            Mantém o painel atual, adiciona novas vagas e atualiza se o link já existir.
+          </span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="importMode" value="replace" />
+          <span>
+            <strong>Substituir lista atual pela planilha</strong>
+            Retira automaticamente as vagas que sumiram da planilha (e traz de volta se você subir de novo depois).
+          </span>
+        </label>
       </div>
 
+      <div class="tabs">
+        <button type="button" class="tab-btn active" data-tab="tabCsv">Upload .CSV</button>
+        <button type="button" class="tab-btn" data-tab="tabPaste">Colar Planilha</button>
+        <button type="button" class="tab-btn" data-tab="tabPrompt">🤖 Prompt para IA</button>
+      </div>
+
+      <!-- ABA 1: UPLOAD CSV -->
       <div class="tab-panel active" id="tabCsv">
         <div class="form-group">
-          <label for="csvFileInput">Selecione um arquivo .csv (UTF-8)</label>
+          <label for="csvFileInput">Selecione sua planilha (.csv UTF-8)</label>
           <input type="file" id="csvFileInput" accept=".csv,text/csv" class="form-control" style="padding: 8px;" />
-          <p class="hint">Colunas esperadas: <code>cargo, empresa, link, modelo</code> (aceita <code>,</code> ou <code>;</code>).</p>
+          <p class="hint">
+            Colunas suportadas: <code>cargo</code>, <code>empresa</code>, <code>modelo</code>, <code>link</code>, <code>descricao</code>, <code>responsabilidades</code>, <code>requisitos</code>, <code>desejaveis</code>.
+          </p>
         </div>
-        <div style="margin-bottom: 14px;">
-          <button type="button" class="btn btn-secondary btn-sm" id="downloadTemplateBtn">📄 Baixar Modelo de CSV</button>
+        <div style="margin-bottom: 10px;">
+          <button type="button" class="btn btn-secondary btn-sm" id="downloadTemplateBtn">📄 Baixar Planilha Modelo (.csv)</button>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-close="importModal">Fechar</button>
@@ -757,15 +1084,42 @@
         </div>
       </div>
 
+      <!-- ABA 2: COLAR PLANILHA -->
       <div class="tab-panel" id="tabPaste">
         <div class="form-group">
-          <label for="pasteTextarea">Cole linhas da sua planilha ou lista</label>
-          <textarea id="pasteTextarea" class="form-control" placeholder="Auxiliar Contábil; Ferronorte; https://...; Presencial&#10;Suporte Contábil Jr; Starian; https://...; Remoto"></textarea>
-          <p class="hint">Aceita cópia direta do Google Planilhas/Excel (TAB) ou <code>;</code>, <code>,</code>, <code>|</code> na ordem: <strong>Cargo, Empresa, Link, Modelo</strong>.</p>
+          <label for="pasteTextarea">Cole as linhas da sua planilha (Google Planilhas / Excel) ou CSV</label>
+          <textarea id="pasteTextarea" class="form-control" style="min-height: 150px;" placeholder="cargo;empresa;modelo;link;descricao;responsabilidades;requisitos;desejaveis"></textarea>
+          <p class="hint">Aceita cópia direta com cabeçalho ou na ordem padrão (TAB, <code>;</code>, <code>,</code> ou <code>|</code>).</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-close="importModal">Fechar</button>
           <button type="button" class="btn btn-primary" id="importPasteBtn">Importar Texto</button>
+        </div>
+      </div>
+
+      <!-- ABA 3: PROMPT PARA IA -->
+      <div class="tab-panel" id="tabPrompt">
+        <p class="hint" style="margin-top:0; margin-bottom:10px;">
+          Copie este comando, cole na IA junto com o texto da página da vaga (ou de várias vagas) e depois cole o resultado na aba <strong>Colar Planilha</strong> ou na sua planilha:
+        </p>
+        <div class="prompt-box" id="aiPromptText">Transforme os dados das vagas abaixo em uma tabela CSV separada por ponto e vírgula (;) com exatamente estas 8 colunas na primeira linha:
+cargo;empresa;modelo;link;descricao;responsabilidades;requisitos;desejaveis
+
+Regras:
+1. Em "modelo", use apenas: Presencial, Híbrido ou Remoto.
+2. Envolva cada campo de texto longo entre aspas duplas ("...") e dentro dele separe cada item por " | " (barra vertical) sem quebrar a linha do CSV.
+3. Extraia de forma clara e resumida:
+   - descricao: resumo objetivo da vaga
+   - responsabilidades: principais atribuições e atividades
+   - requisitos: requisitos obrigatórios e qualificações
+   - desejaveis: requisitos desejáveis e diferenciais (se não houver, deixe vazio)
+4. Não invente informações. Entregue apenas o bloco de código CSV pronto para copiar.
+
+TEXTO DA(S) VAGA(S):
+[COLE AQUI O TEXTO DA PÁGINA DA VAGA E O LINK]</div>
+        <button type="button" class="btn btn-soft btn-sm" id="copyAiPromptBtn" style="width: 100%;">📋 Copiar Prompt para IA</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close="importModal">Fechar</button>
         </div>
       </div>
     </div>
@@ -775,13 +1129,13 @@
   <div class="modal-backdrop" id="confirmModal">
     <div class="modal" style="max-width: 400px;">
       <div class="modal-header">
-        <h2 id="confirmTitle">Confirmar Exclusão</h2>
+        <h2 id="confirmTitle">Confirmar Ação</h2>
         <button type="button" class="btn-close" data-close="confirmModal">&times;</button>
       </div>
-      <p id="confirmMessage" style="color: var(--text-muted); font-size: 0.95rem;"></p>
+      <p id="confirmMessage" style="color: var(--text-secondary); font-size: 0.94rem;"></p>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-close="confirmModal">Cancelar</button>
-        <button type="button" class="btn btn-danger" id="confirmActionBtn">Sim, excluir</button>
+        <button type="button" class="btn btn-danger" id="confirmActionBtn">Confirmar</button>
       </div>
     </div>
   </div>
@@ -804,35 +1158,55 @@
           cargo: 'Analista - Teresina',
           empresa: 'Ceneged',
           modelo: 'Presencial',
-          link: 'https://atracaodetalentos.totvs.app/cenegedvagas/751/analista-teresina'
+          link: 'https://atracaodetalentos.totvs.app/cenegedvagas/751/analista-teresina',
+          descricao: '',
+          responsabilidades: '',
+          requisitos: '',
+          desejaveis: ''
         },
         {
           id: 'seed-2',
           cargo: 'Assistente de SGQ',
           empresa: 'Ferronorte Industrial',
           modelo: 'Presencial',
-          link: 'https://atracaodetalentos.totvs.app/ferronorteindustrial/29/assistente-de-sgq'
+          link: 'https://atracaodetalentos.totvs.app/ferronorteindustrial/29/assistente-de-sgq',
+          descricao: '',
+          responsabilidades: '',
+          requisitos: '',
+          desejaveis: ''
         },
         {
           id: 'seed-3',
           cargo: 'Auxiliar Financeiro',
           empresa: 'Ferronorte Industrial',
           modelo: 'Presencial',
-          link: 'https://atracaodetalentos.totvs.app/ferronorteindustrial/28/auxiliar-financeiro'
+          link: 'https://atracaodetalentos.totvs.app/ferronorteindustrial/28/auxiliar-financeiro',
+          descricao: '',
+          responsabilidades: '',
+          requisitos: '',
+          desejaveis: ''
         },
         {
           id: 'seed-4',
           cargo: 'Auxiliar Contábil',
           empresa: 'Lojas Ferronorte',
           modelo: 'Presencial',
-          link: 'https://atracaodetalentos.totvs.app/vagaslojasferronorte/332/auxiliar-contabil'
+          link: 'https://atracaodetalentos.totvs.app/vagaslojasferronorte/332/auxiliar-contabil',
+          descricao: '',
+          responsabilidades: '',
+          requisitos: '',
+          desejaveis: ''
         },
         {
           id: 'seed-5',
           cargo: 'Assistente Administrativo (PcD)',
           empresa: 'Aegea Saneamento',
           modelo: 'Presencial',
-          link: 'https://aegea.gupy.io/jobs/12890688?jobBoardSource=linkedin'
+          link: 'https://aegea.gupy.io/jobs/12890688?jobBoardSource=linkedin',
+          descricao: '',
+          responsabilidades: '',
+          requisitos: '',
+          desejaveis: ''
         }
       ];
 
@@ -842,10 +1216,25 @@
       let activeModel = 'Todos';
       let searchQuery = '';
       let pendingConfirmAction = null;
+      let currentDetailJobId = null;
 
       // =========================================================
-      // ARMAZENAMENTO LOCAL + SINCRONIZAÇÃO ONLINE (FIREBASE)
+      // ARMAZENAMENTO LOCAL + NUVEM (FIREBASE)
       // =========================================================
+      function normalizeJobRecord(item) {
+        return {
+          id: item.id || generateId(),
+          cargo: String(item.cargo || '').trim(),
+          empresa: String(item.empresa || 'Não informada').trim(),
+          modelo: normalizeModel(item.modelo || 'Presencial'),
+          link: sanitizeUrl(item.link || ''),
+          descricao: String(item.descricao || '').trim(),
+          responsabilidades: String(item.responsabilidades || '').trim(),
+          requisitos: String(item.requisitos || '').trim(),
+          desejaveis: String(item.desejaveis || '').trim()
+        };
+      }
+
       function loadLocalJobs() {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (raw === null) {
@@ -854,7 +1243,7 @@
         }
         try {
           const parsed = JSON.parse(raw);
-          return Array.isArray(parsed) ? parsed : [];
+          return Array.isArray(parsed) ? parsed.map(normalizeJobRecord) : [];
         } catch {
           return [];
         }
@@ -932,12 +1321,12 @@
           const data = await res.json();
 
           if (data && Array.isArray(data.jobs)) {
-            jobs = data.jobs;
+            jobs = data.jobs.map(normalizeJobRecord);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(jobs));
             if (data.pin) localStorage.setItem(PIN_KEY, String(data.pin));
             render();
           } else if (data && data.jobs && typeof data.jobs === 'object') {
-            jobs = Object.values(data.jobs);
+            jobs = Object.values(data.jobs).map(normalizeJobRecord);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(jobs));
             render();
           }
@@ -965,7 +1354,6 @@
         return localStorage.getItem(PIN_KEY) || '1234';
       }
 
-      // Verifica se o link veio com parâmetro mágico de pareamento (#sync=...)
       function checkMagicLinkOnBoot() {
         const hash = window.location.hash || '';
         if (!hash.startsWith('#sync=')) return;
@@ -976,7 +1364,6 @@
           if (parsed && parsed.u && parsed.f) {
             cloudConfig = { url: parsed.u, folder: parsed.f };
             localStorage.setItem(CLOUD_KEY, JSON.stringify(cloudConfig));
-            // Limpa o hash da barra de endereço por privacidade
             history.replaceState(null, '', window.location.pathname + window.location.search);
             showToast('Nuvem pareada com sucesso!');
           }
@@ -1035,6 +1422,27 @@
         return 'badge badge-presencial';
       }
 
+      function hasDetails(job) {
+        return Boolean(job.descricao || job.responsabilidades || job.requisitos || job.desejaveis);
+      }
+
+      function formatStructuredTextToHtml(raw) {
+        const text = String(raw || '').trim();
+        if (!text) return '';
+
+        // Aceita itens separados por quebra de linha ou " | "
+        const parts = text
+          .split(/\r?\n|\s*\|\s*/)
+          .map(p => p.replace(/^[\s•\-–*]+/, '').trim())
+          .filter(Boolean);
+
+        if (parts.length <= 1) {
+          return `<p>${escapeHtml(text)}</p>`;
+        }
+
+        return `<ul class="detail-list">${parts.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`;
+      }
+
       function showToast(message) {
         const toast = document.getElementById('toast');
         toast.textContent = message;
@@ -1058,7 +1466,9 @@
           const matchesModel = activeModel === 'Todos' || job.modelo === activeModel;
           const matchesQuery = !q ||
             normalizeText(job.cargo).includes(q) ||
-            normalizeText(job.empresa).includes(q);
+            normalizeText(job.empresa).includes(q) ||
+            normalizeText(job.requisitos).includes(q) ||
+            normalizeText(job.descricao).includes(q);
           return matchesModel && matchesQuery;
         });
 
@@ -1075,60 +1485,136 @@
         emptyState.style.display = 'none';
         tableWrap.style.display = '';
 
+        // Cartões Mobile
         cardsContainer.innerHTML = filtered.map(job => {
           const safeTitle = escapeHtml(job.cargo);
           const safeCompany = escapeHtml(job.empresa);
           const safeModel = escapeHtml(job.modelo);
           const safeLink = escapeHtml(sanitizeUrl(job.link));
+          const safeId = escapeHtml(job.id);
+          const previewText = job.descricao || job.requisitos || job.responsabilidades;
 
           return `
             <article class="job-card">
               <div class="job-card-header">
                 <div>
-                  <h3 class="job-title">${safeTitle}</h3>
+                  <button type="button" class="job-title-btn" data-open-details="${safeId}">${safeTitle}</button>
                   <p class="job-company">${safeCompany}</p>
+                  ${hasDetails(job) ? '<span class="detail-tag">📋 Com detalhes e requisitos</span>' : ''}
                 </div>
                 <span class="${getBadgeClass(job.modelo)}">${safeModel}</span>
               </div>
+              ${previewText ? `<p class="job-preview">${escapeHtml(previewText)}</p>` : ''}
               <div class="job-card-actions">
-                <a href="${safeLink}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-access">
-                  Acessar Vaga ↗
-                </a>
+                <div class="job-primary-row">
+                  <button type="button" class="btn btn-soft btn-sm" data-open-details="${safeId}">
+                    Detalhes
+                  </button>
+                  <a href="${safeLink}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+                    Acessar ↗
+                  </a>
+                </div>
                 <div class="edit-row-actions">
-                  <button type="button" class="btn btn-secondary btn-sm" data-action="edit" data-id="${escapeHtml(job.id)}">Editar</button>
-                  <button type="button" class="btn btn-ghost-danger btn-sm" data-action="delete" data-id="${escapeHtml(job.id)}">Excluir</button>
+                  <button type="button" class="btn btn-secondary btn-sm" data-action="edit" data-id="${safeId}">Editar</button>
+                  <button type="button" class="btn btn-ghost-danger btn-sm" data-action="delete" data-id="${safeId}">Retirar</button>
                 </div>
               </div>
             </article>
           `;
         }).join('');
 
+        // Tabela Desktop
         tableBody.innerHTML = filtered.map(job => {
           const safeTitle = escapeHtml(job.cargo);
           const safeCompany = escapeHtml(job.empresa);
           const safeModel = escapeHtml(job.modelo);
           const safeLink = escapeHtml(sanitizeUrl(job.link));
+          const safeId = escapeHtml(job.id);
 
           return `
             <tr>
-              <td><strong>${safeTitle}</strong></td>
-              <td style="color: var(--text-muted);">${safeCompany}</td>
+              <td>
+                <button type="button" class="job-title-btn" data-open-details="${safeId}">${safeTitle}</button>
+                ${hasDetails(job) ? '<div><span class="detail-tag">📋 Detalhes e requisitos</span></div>' : ''}
+              </td>
+              <td style="color: var(--text-secondary); font-weight: 500;">${safeCompany}</td>
               <td><span class="${getBadgeClass(job.modelo)}">${safeModel}</span></td>
               <td>
-                <a href="${safeLink}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
-                  Acessar Vaga ↗
-                </a>
+                <div class="table-actions">
+                  <button type="button" class="btn btn-soft btn-sm" data-open-details="${safeId}">
+                    Detalhes
+                  </button>
+                  <a href="${safeLink}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+                    Acessar ↗
+                  </a>
+                </div>
               </td>
               <td class="col-edit-only">
                 <div class="table-edit-btns">
-                  <button type="button" class="btn btn-secondary btn-sm" data-action="edit" data-id="${escapeHtml(job.id)}">Editar</button>
-                  <button type="button" class="btn btn-ghost-danger btn-sm" data-action="delete" data-id="${escapeHtml(job.id)}">Excluir</button>
+                  <button type="button" class="btn btn-secondary btn-sm" data-action="edit" data-id="${safeId}">Editar</button>
+                  <button type="button" class="btn btn-ghost-danger btn-sm" data-action="delete" data-id="${safeId}">Retirar</button>
                 </div>
               </td>
             </tr>
           `;
         }).join('');
       }
+
+      // =========================================================
+      // MODAL DE DETALHES DA VAGA
+      // =========================================================
+      function openJobDetails(id) {
+        const job = jobs.find(j => j.id === id);
+        if (!job) return;
+        currentDetailJobId = job.id;
+
+        document.getElementById('detailTitle').textContent = job.cargo;
+        document.getElementById('detailCompany').textContent = job.empresa;
+        document.getElementById('detailBadgeWrap').innerHTML =
+          `<span class="${getBadgeClass(job.modelo)}">${escapeHtml(job.modelo)}</span>`;
+        document.getElementById('detailLinkBtn').href = sanitizeUrl(job.link);
+
+        const detailEditButtons = document.getElementById('detailEditButtons');
+        detailEditButtons.style.display = isUnlocked ? 'inline-flex' : 'none';
+
+        const sections = [
+          { icon: '📋', title: 'Descrição da Vaga', content: job.descricao, isParagraph: true },
+          { icon: '🎯', title: 'Responsabilidades e Atribuições', content: job.responsabilidades, isParagraph: false },
+          { icon: '✅', title: 'Requisitos e Qualificações', content: job.requisitos, isParagraph: false },
+          { icon: '⭐', title: 'Requisitos Desejáveis', content: job.desejaveis, isParagraph: false }
+        ].filter(s => s.content && s.content.trim() !== '');
+
+        const container = document.getElementById('detailSections');
+        if (sections.length === 0) {
+          container.innerHTML = `
+            <div class="detail-empty">
+              <p><strong>Sem detalhes extras cadastrados para esta vaga.</strong></p>
+              <p style="margin-top:4px;">Desbloqueie a edição para preencher manualmente ou importe uma planilha com as colunas de descrição e requisitos.</p>
+            </div>
+          `;
+        } else {
+          container.innerHTML = sections.map(sec => `
+            <section class="detail-card">
+              <h3>${sec.icon} ${sec.title}</h3>
+              ${sec.isParagraph && !sec.content.includes('|') ? `<p>${escapeHtml(sec.content)}</p>` : formatStructuredTextToHtml(sec.content)}
+            </section>
+          `).join('');
+        }
+
+        openModal('detailsModal');
+      }
+
+      document.getElementById('detailEditBtn').addEventListener('click', () => {
+        if (!currentDetailJobId || !isUnlocked) return;
+        closeModal('detailsModal');
+        openEditModal(currentDetailJobId);
+      });
+
+      document.getElementById('detailDeleteBtn').addEventListener('click', () => {
+        if (!currentDetailJobId || !isUnlocked) return;
+        closeModal('detailsModal');
+        requestDeleteJob(currentDetailJobId);
+      });
 
       // =========================================================
       // MODAIS E TRAVA DE SEGURANÇA
@@ -1153,13 +1639,13 @@
         const btn = document.getElementById('toggleLockBtn');
 
         if (state) {
-          statusEl.textContent = '🔓 Edição Desbloqueada';
-          btn.textContent = 'Bloquear Edição';
-          btn.className = 'btn btn-warning';
+          statusEl.textContent = '🔓 Edição Ativa';
+          btn.textContent = 'Bloquear';
+          btn.className = 'btn btn-warning btn-sm';
         } else {
-          statusEl.textContent = '🔒 Modo Visualização';
+          statusEl.textContent = '🔒 Visualização';
           btn.textContent = 'Desbloquear Edição';
-          btn.className = 'btn btn-secondary';
+          btn.className = 'btn btn-secondary btn-sm';
         }
       }
 
@@ -1253,21 +1739,19 @@
 
         try {
           const res = await fetch(endpoint, { cache: 'no-store' });
-          if (!res.ok) throw new Error('Permissão negada ou URL incorreta (HTTP ' + res.status + ')');
+          if (!res.ok) throw new Error('HTTP ' + res.status);
           const remoteData = await res.json();
 
           cloudConfig = testCfg;
           localStorage.setItem(CLOUD_KEY, JSON.stringify(cloudConfig));
 
           if (remoteData && Array.isArray(remoteData.jobs)) {
-            // Nuvem já tem vagas: baixa para este aparelho
-            jobs = remoteData.jobs;
+            jobs = remoteData.jobs.map(normalizeJobRecord);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(jobs));
             if (remoteData.pin) localStorage.setItem(PIN_KEY, String(remoteData.pin));
             render();
             showToast('Conectado! Vagas carregadas da nuvem.');
           } else {
-            // Nuvem vazia: envia as vagas atuais para a nuvem
             await pushToCloud(true);
             showToast('Conectado! Vagas enviadas para a nuvem.');
           }
@@ -1306,6 +1790,37 @@
       // =========================================================
       // CRUD DE VAGAS
       // =========================================================
+      function openEditModal(id) {
+        const job = jobs.find(j => j.id === id);
+        if (!job) return;
+        document.getElementById('jobModalTitle').textContent = 'Editar Vaga';
+        document.getElementById('jobIdInput').value = job.id;
+        document.getElementById('jobTitleInput').value = job.cargo;
+        document.getElementById('jobCompanyInput').value = job.empresa;
+        document.getElementById('jobModelInput').value = job.modelo;
+        document.getElementById('jobLinkInput').value = job.link;
+        document.getElementById('jobDescInput').value = job.descricao || '';
+        document.getElementById('jobRespInput').value = job.responsabilidades || '';
+        document.getElementById('jobReqInput').value = job.requisitos || '';
+        document.getElementById('jobDesejInput').value = job.desejaveis || '';
+        openModal('jobModal');
+      }
+
+      function requestDeleteJob(id) {
+        const job = jobs.find(j => j.id === id);
+        if (!job) return;
+        document.getElementById('confirmTitle').textContent = 'Retirar Vaga';
+        document.getElementById('confirmMessage').textContent =
+          `Tem certeza que deseja retirar "${job.cargo}" (${job.empresa}) do painel?`;
+        pendingConfirmAction = async () => {
+          jobs = jobs.filter(j => j.id !== id);
+          render();
+          await saveAll();
+          showToast('Vaga retirada do painel.');
+        };
+        openModal('confirmModal');
+      }
+
       document.getElementById('openAddModalBtn').addEventListener('click', () => {
         document.getElementById('jobModalTitle').textContent = 'Nova Vaga';
         document.getElementById('jobIdInput').value = '';
@@ -1316,13 +1831,17 @@
       document.getElementById('jobForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const id = document.getElementById('jobIdInput').value;
-        const payload = {
+        const payload = normalizeJobRecord({
           id: id || generateId(),
-          cargo: document.getElementById('jobTitleInput').value.trim(),
-          empresa: document.getElementById('jobCompanyInput').value.trim(),
+          cargo: document.getElementById('jobTitleInput').value,
+          empresa: document.getElementById('jobCompanyInput').value,
           modelo: document.getElementById('jobModelInput').value,
-          link: sanitizeUrl(document.getElementById('jobLinkInput').value)
-        };
+          link: document.getElementById('jobLinkInput').value,
+          descricao: document.getElementById('jobDescInput').value,
+          responsabilidades: document.getElementById('jobRespInput').value,
+          requisitos: document.getElementById('jobReqInput').value,
+          desejaveis: document.getElementById('jobDesejInput').value
+        });
 
         if (id) {
           const idx = jobs.findIndex(j => j.id === id);
@@ -1339,47 +1858,30 @@
       });
 
       document.addEventListener('click', (e) => {
+        const detailsBtn = e.target.closest('[data-open-details]');
+        if (detailsBtn) {
+          openJobDetails(detailsBtn.dataset.openDetails);
+          return;
+        }
+
         const btn = e.target.closest('[data-action]');
         if (!btn || !isUnlocked) return;
 
         const id = btn.dataset.id;
-        const job = jobs.find(j => j.id === id);
-        if (!job) return;
-
-        if (btn.dataset.action === 'edit') {
-          document.getElementById('jobModalTitle').textContent = 'Editar Vaga';
-          document.getElementById('jobIdInput').value = job.id;
-          document.getElementById('jobTitleInput').value = job.cargo;
-          document.getElementById('jobCompanyInput').value = job.empresa;
-          document.getElementById('jobModelInput').value = job.modelo;
-          document.getElementById('jobLinkInput').value = job.link;
-          openModal('jobModal');
-        }
-
-        if (btn.dataset.action === 'delete') {
-          document.getElementById('confirmTitle').textContent = 'Excluir Vaga';
-          document.getElementById('confirmMessage').textContent =
-            `Tem certeza que deseja excluir "${job.cargo}" na empresa "${job.empresa}"?`;
-          pendingConfirmAction = async () => {
-            jobs = jobs.filter(j => j.id !== id);
-            render();
-            await saveAll();
-            showToast('Vaga excluída.');
-          };
-          openModal('confirmModal');
-        }
+        if (btn.dataset.action === 'edit') openEditModal(id);
+        if (btn.dataset.action === 'delete') requestDeleteJob(id);
       });
 
       document.getElementById('clearAllBtn').addEventListener('click', () => {
         if (!isUnlocked) return;
-        document.getElementById('confirmTitle').textContent = 'Limpar Todas as Vagas';
+        document.getElementById('confirmTitle').textContent = 'Retirar Todas as Vagas';
         document.getElementById('confirmMessage').textContent =
-          'Isso apagará todas as vagas (inclusive da nuvem, se conectada). Exporte um CSV antes se quiser backup.';
+          'Isso removerá todas as vagas do painel (e da nuvem, se conectada). Exporte um CSV antes se quiser guardar backup.';
         pendingConfirmAction = async () => {
           jobs = [];
           render();
           await saveAll();
-          showToast('Todas as vagas foram removidas.');
+          showToast('Todas as vagas foram retiradas.');
         };
         openModal('confirmModal');
       });
@@ -1408,7 +1910,7 @@
       });
 
       // =========================================================
-      // IMPORTAÇÃO EM LOTE (CSV + COLAGEM RÁPIDA) & BACKUP
+      // IMPORTAÇÃO DE PLANILHA ROBUSTA (COM SUPORTE A MULTILINHA)
       // =========================================================
       document.getElementById('openImportModalBtn').addEventListener('click', () => {
         document.getElementById('csvFileInput').value = '';
@@ -1425,82 +1927,177 @@
         });
       });
 
-      function splitCsvLine(line, delimiter) {
-        const result = [];
+      document.getElementById('copyAiPromptBtn').addEventListener('click', async () => {
+        const promptText = document.getElementById('aiPromptText').textContent;
+        try {
+          await navigator.clipboard.writeText(promptText);
+          showToast('Prompt para IA copiado!');
+        } catch {
+          showToast('Selecione e copie o texto acima.');
+        }
+      });
+
+      function detectDelimiter(text) {
+        const firstLine = text.split(/\r?\n/)[0] || '';
+        if (firstLine.includes('\t')) return '\t';
+        if (firstLine.includes(';')) return ';';
+        if (firstLine.includes('|')) return '|';
+        return ',';
+      }
+
+      // Parser CSV/TSV completo: respeita quebras de linha dentro de aspas "..."
+      function parseDelimitedRows(rawText, delimiter) {
+        const rows = [];
+        let row = [];
         let current = '';
         let inQuotes = false;
-        for (let i = 0; i < line.length; i++) {
-          const ch = line[i];
+
+        for (let i = 0; i < rawText.length; i++) {
+          const ch = rawText[i];
+          const next = rawText[i + 1];
+
           if (ch === '"') {
-            if (inQuotes && line[i + 1] === '"') { current += '"'; i++; }
-            else { inQuotes = !inQuotes; }
+            if (inQuotes && next === '"') {
+              current += '"';
+              i++;
+            } else {
+              inQuotes = !inQuotes;
+            }
           } else if (ch === delimiter && !inQuotes) {
-            result.push(current.trim());
+            row.push(current.trim());
+            current = '';
+          } else if ((ch === '\r' || ch === '\n') && !inQuotes) {
+            if (ch === '\r' && next === '\n') i++;
+            row.push(current.trim());
+            if (row.some(cell => cell !== '')) rows.push(row);
+            row = [];
             current = '';
           } else {
             current += ch;
           }
         }
-        result.push(current.trim());
-        return result;
-      }
 
-      function detectDelimiter(sampleLine) {
-        if (sampleLine.includes('\t')) return '\t';
-        if (sampleLine.includes(';')) return ';';
-        if (sampleLine.includes('|')) return '|';
-        return ',';
+        row.push(current.trim());
+        if (row.some(cell => cell !== '')) rows.push(row);
+        return rows;
       }
 
       function parseBulkText(rawText) {
-        const cleanText = rawText.replace(/^\uFEFF/, '');
-        const lines = cleanText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
-        if (lines.length === 0) return [];
+        const cleanText = rawText
+          .replace(/^\uFEFF/, '')
+          .replace(/^```(?:csv|txt)?\s*/i, '')
+          .replace(/\s*```$/i, '')
+          .trim();
 
-        const delimiter = detectDelimiter(lines[0]);
-        const firstCols = splitCsvLine(lines[0], delimiter).map(c => normalizeText(c));
+        if (!cleanText) return [];
 
-        let idxCargo = 0, idxEmpresa = 1, idxLink = 2, idxModelo = 3;
-        let startRow = 0;
+        const delimiter = detectDelimiter(cleanText);
+        const rows = parseDelimitedRows(cleanText, delimiter);
+        if (rows.length === 0) return [];
 
+        const firstCols = rows[0].map(c => normalizeText(c));
         const hasHeader = firstCols.some(c =>
-          c.includes('cargo') || c.includes('vaga') || c.includes('empresa') || c.includes('link')
+          c.includes('cargo') || c.includes('vaga') || c.includes('empresa') || c.includes('link') || c.includes('requisit')
         );
+
+        let idx = {
+          cargo: 0,
+          empresa: 1,
+          modelo: 2,
+          link: 3,
+          descricao: 4,
+          responsabilidades: 5,
+          requisitos: 6,
+          desejaveis: 7
+        };
+        let startRow = 0;
 
         if (hasHeader) {
           startRow = 1;
+          idx = { cargo: -1, empresa: -1, modelo: -1, link: -1, descricao: -1, responsabilidades: -1, requisitos: -1, desejaveis: -1 };
           firstCols.forEach((col, i) => {
-            if (col.includes('cargo') || col.includes('vaga') || col.includes('titulo')) idxCargo = i;
-            else if (col.includes('empresa')) idxEmpresa = i;
-            else if (col.includes('link') || col.includes('url')) idxLink = i;
-            else if (col.includes('modelo') || col.includes('modalidade') || col.includes('regime')) idxModelo = i;
+            if (idx.cargo === -1 && (col.includes('cargo') || col.includes('vaga') || col.includes('titulo'))) idx.cargo = i;
+            else if (idx.empresa === -1 && col.includes('empresa')) idx.empresa = i;
+            else if (idx.modelo === -1 && (col.includes('modelo') || col.includes('modalidade') || col.includes('regime'))) idx.modelo = i;
+            else if (idx.link === -1 && (col.includes('link') || col.includes('url'))) idx.link = i;
+            else if (idx.descricao === -1 && (col.includes('descric') || col.includes('resumo') || col.includes('sobre'))) idx.descricao = i;
+            else if (idx.responsabilidades === -1 && (col.includes('responsabil') || col.includes('atribuic') || col.includes('atividade'))) idx.responsabilidades = i;
+            else if (idx.desejaveis === -1 && (col.includes('desej') || col.includes('diferenc') || col.includes('plus'))) idx.desejaveis = i;
+            else if (idx.requisitos === -1 && (col.includes('requisit') || col.includes('qualific') || col.includes('perfil'))) idx.requisitos = i;
           });
         }
 
         const imported = [];
-        for (let i = startRow; i < lines.length; i++) {
-          const cols = splitCsvLine(lines[i], delimiter);
+        for (let r = startRow; r < rows.length; r++) {
+          const cols = rows[r];
           if (cols.length < 2) continue;
 
-          const cargo = (cols[idxCargo] || '').trim();
-          const empresa = (cols[idxEmpresa] || 'Não informada').trim();
-          let rawLink = (cols[idxLink] || '').trim();
-          let rawModelo = (cols[idxModelo] || 'Presencial').trim();
+          const getCol = (index) => (index >= 0 && index < cols.length ? cols[index].trim() : '');
+          const cargo = getCol(idx.cargo !== -1 ? idx.cargo : 0);
+          if (!cargo) continue;
 
-          if (!/^https?:\/\//i.test(rawLink) && /^https?:\/\//i.test(rawModelo)) {
-            [rawLink, rawModelo] = [rawModelo, rawLink];
+          let empresa = getCol(idx.empresa);
+          let modelo = getCol(idx.modelo);
+          let link = getCol(idx.link);
+
+          // Compatibilidade caso modelo e link venham trocados (sem cabeçalho)
+          if (!hasHeader && /^https?:\/\//i.test(modelo) && !/^https?:\/\//i.test(link)) {
+            [modelo, link] = [link, modelo];
           }
 
-          if (!cargo) continue;
-          imported.push({
+          imported.push(normalizeJobRecord({
             id: generateId(),
             cargo,
-            empresa,
-            link: sanitizeUrl(rawLink),
-            modelo: normalizeModel(rawModelo)
-          });
+            empresa: empresa || 'Não informada',
+            modelo: modelo || 'Presencial',
+            link,
+            descricao: getCol(idx.descricao),
+            responsabilidades: getCol(idx.responsabilidades),
+            requisitos: getCol(idx.requisitos),
+            desejaveis: getCol(idx.desejaveis)
+          }));
         }
+
         return imported;
+      }
+
+      async function applyImportedJobs(parsed) {
+        if (parsed.length === 0) {
+          showToast('Nenhuma vaga válida encontrada.');
+          return;
+        }
+
+        const mode = document.querySelector('input[name="importMode"]:checked')?.value || 'merge';
+
+        if (mode === 'replace') {
+          jobs = parsed;
+          showToast(`Lista substituída: ${parsed.length} vaga(s) no painel!`);
+        } else {
+          // Atualiza se o link for igual (e diferente de '#'), senão adiciona no topo
+          let added = 0;
+          let updated = 0;
+          const nextJobs = [...jobs];
+
+          for (const item of [...parsed].reverse()) {
+            const matchIdx = item.link !== '#'
+              ? nextJobs.findIndex(j => j.link === item.link)
+              : -1;
+
+            if (matchIdx !== -1) {
+              nextJobs[matchIdx] = { ...item, id: nextJobs[matchIdx].id };
+              updated++;
+            } else {
+              nextJobs.unshift(item);
+              added++;
+            }
+          }
+          jobs = nextJobs;
+          showToast(`${added} adicionada(s)${updated ? `, ${updated} atualizada(s)` : ''}!`);
+        }
+
+        render();
+        closeModal('importModal');
+        await saveAll();
       }
 
       document.getElementById('importCsvBtn').addEventListener('click', () => {
@@ -1510,24 +2107,14 @@
         const reader = new FileReader();
         reader.onload = async (e) => {
           const parsed = parseBulkText(e.target.result);
-          if (parsed.length === 0) { showToast('Nenhuma vaga válida encontrada.'); return; }
-          jobs = [...parsed, ...jobs];
-          render();
-          closeModal('importModal');
-          await saveAll();
-          showToast(`${parsed.length} vaga(s) importada(s)!`);
+          await applyImportedJobs(parsed);
         };
         reader.readAsText(file, 'UTF-8');
       });
 
       document.getElementById('importPasteBtn').addEventListener('click', async () => {
         const parsed = parseBulkText(document.getElementById('pasteTextarea').value);
-        if (parsed.length === 0) { showToast('Cole ao menos uma linha válida.'); return; }
-        jobs = [...parsed, ...jobs];
-        render();
-        closeModal('importModal');
-        await saveAll();
-        showToast(`${parsed.length} vaga(s) importada(s)!`);
+        await applyImportedJobs(parsed);
       });
 
       function triggerCsvDownload(filename, content) {
@@ -1544,21 +2131,31 @@
 
       document.getElementById('downloadTemplateBtn').addEventListener('click', () => {
         const template = [
-          'cargo;empresa;link;modelo',
-          'Auxiliar Administrativo;Empresa Exemplo;https://site.com/vaga1;Presencial',
-          'Analista de Suporte Contábil;Starian;https://site.com/vaga2;Remoto'
+          'cargo;empresa;modelo;link;descricao;responsabilidades;requisitos;desejaveis',
+          '"Auxiliar Administrativo";"Empresa Exemplo";"Presencial";"https://site.com/vaga1";"Apoio às rotinas administrativas da unidade.";"Organizar documentos | Atendimento interno | Lançamento de notas";"Ensino Médio completo | Pacote Office";"Cursando Administração"',
+          '"Analista de Suporte Contábil";"Starian";"Remoto";"https://site.com/vaga2";"Atendimento consultivo a clientes do sistema contábil.";"Atender chamados | Orientar sobre obrigações fiscais";"Superior em Contabilidade ou áreas afins | Experiência fiscal";"Conhecimento em SQL"'
         ].join('\n');
-        triggerCsvDownload('modelo-vagas.csv', template);
+        triggerCsvDownload('modelo-vagas-completo.csv', template);
       });
 
       document.getElementById('exportCsvBtn').addEventListener('click', () => {
         if (jobs.length === 0) { showToast('Não há vagas para exportar.'); return; }
         const escapeCsv = (val) => `"${String(val ?? '').replace(/"/g, '""')}"`;
+        const header = 'cargo;empresa;modelo;link;descricao;responsabilidades;requisitos;desejaveis';
         const rows = jobs.map(j =>
-          [escapeCsv(j.cargo), escapeCsv(j.empresa), escapeCsv(j.link), escapeCsv(j.modelo)].join(';')
+          [
+            escapeCsv(j.cargo),
+            escapeCsv(j.empresa),
+            escapeCsv(j.modelo),
+            escapeCsv(j.link),
+            escapeCsv(j.descricao),
+            escapeCsv(j.responsabilidades),
+            escapeCsv(j.requisitos),
+            escapeCsv(j.desejaveis)
+          ].join(';')
         );
         const dateStr = new Date().toISOString().slice(0, 10);
-        triggerCsvDownload(`vagas-backup-${dateStr}.csv`, ['cargo;empresa;link;modelo', ...rows].join('\n'));
+        triggerCsvDownload(`vagas-backup-${dateStr}.csv`, [header, ...rows].join('\n'));
         showToast('Backup CSV baixado!');
       });
 
